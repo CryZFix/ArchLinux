@@ -48,7 +48,7 @@ echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 echo 'Ставим иксы и драйвера'
-pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils lib32-mesa-libgl
 
 echo "Ставим XFCE"
 pacman -S xfce4 xfce4-goodies --noconfirm
@@ -64,6 +64,11 @@ pacman -S networkmanager network-manager-applet ppp --noconfirm
 
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
+
+
+echo 'Обновляем grub.cfg'
+grub-mkconfig -o /boot/grub/grub.cfg
+
 
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
