@@ -68,4 +68,4 @@ pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl
 echo '3.3 Настройка системы'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL git.io/aarchin2)"
+arch-chroot /mnt sh -c "$(curl -fsSL 'https://github.com/CryZFix/aarchin/blob/e461a64e27bdd1189094ef435d1bd7ebad9cb714/arch2.sh')"
