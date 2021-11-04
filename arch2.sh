@@ -48,7 +48,7 @@ echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 echo 'Ставим иксы и драйвера'
-pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils lib32-mesa-libgl
+pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils lib32-mesa-libgl wget
 
 echo "Ставим XFCE"
 pacman -S xfce4 xfce4-goodies --noconfirm
@@ -68,6 +68,17 @@ systemctl enable NetworkManager
 
 echo 'Обновляем grub.cfg'
 grub-mkconfig -o /boot/grub/grub.cfg
+
+echo 'Собираем PikAUR'
+wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
+tar zxfv pikaur*
+cd pikaur
+pacman -S --needed base base-devel --noconfirm;yes|makepkg -fsri
+cd ..
+rm -r pikaur*
+
+echo 'Ставим довески'
+pikaur -S google-chrome bash-completion remmina freerdp whatsapp-for-linux viber icq-bin anydesk-bin vk-messenger --noconfirm
 
 
 echo 'Установка завершена! Перезагрузите систему.'
