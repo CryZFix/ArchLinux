@@ -51,9 +51,9 @@ echo 'Ваша разметка диска'
 fdisk -l
 
 echo '2.4.2 Форматирование дисков'
-mkfs.ext2  /dev/sda1 -L boot
-mkswap /dev/sda2 -L swap
-mkfs.ext4  /dev/sda3 -L root
+y|mkfs.ext2  /dev/sda1 -L boot
+y|mkswap /dev/sda2 -L swap
+y|mkfs.ext4  /dev/sda3 -L root
 
 echo '2.4.3 Монтирование дисков'
 mount /dev/sda3 /mnt
