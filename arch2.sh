@@ -68,17 +68,6 @@ systemctl enable NetworkManager
 echo 'Обновляем grub.cfg'
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo 'Собираем PikAUR'
-wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
-tar zxfv pikaur*
-cd pikaur
-pacman -S --needed base base-devel --noconfirm;yes|makepkg -fsri
-cd ..
-rm -r pikaur*
-
-echo 'Ставим довески'
-pikaur -S google-chrome bash-completion remmina freerdp whatsapp-for-linux viber icq-bin anydesk-bin vk-messenger --noconfirm
-
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
 echo 'wget git.io/arch3.sh && sh arch3.sh'
