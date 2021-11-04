@@ -66,7 +66,6 @@ pacman -S networkmanager network-manager-applet ppp --noconfirm
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
 
-
 echo 'Обновляем grub.cfg'
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -80,7 +79,6 @@ rm -r pikaur*
 
 echo 'Ставим довески'
 pikaur -S google-chrome bash-completion remmina freerdp whatsapp-for-linux viber icq-bin anydesk-bin vk-messenger --noconfirm
-
 
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
