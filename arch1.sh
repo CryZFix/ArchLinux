@@ -42,15 +42,15 @@ echo '2.4 создание разделов'
   echo 1;
 
   echo w;
-) | cfdisk /dev/sda
+) | fdisk /dev/sda
 
 echo 'Ваша разметка диска'
 fdisk -l
 
 echo '2.4.2 Форматирование дисков'
-y|mkfs.ext2  /dev/sda1 -L boot
-y|mkswap /dev/sda2 -L swap
-y|mkfs.ext4  /dev/sda3 -L root
+mkfs.ext2  /dev/sda1 -L boot
+mkswap /dev/sda2 -L swap
+mkfs.ext4  /dev/sda3 -L root
 
 echo '2.4.3 Монтирование дисков'
 mount /dev/sda3 /mnt
