@@ -54,7 +54,7 @@ mkfs.ext4  /dev/sda3 -L root
 
 echo '2.4.3 Монтирование дисков'
 mount /dev/sda3 /mnt
-mkdir /mnt/{boot,home}
+mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
