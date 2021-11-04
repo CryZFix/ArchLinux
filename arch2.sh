@@ -34,10 +34,10 @@ echo 'Добавляем пользователя'
 useradd -m -g users -G wheel -s /bin/bash user
 
 echo 'Создаем root пароль'
-echo 'b4skerv!lle' | passwd
+passwd
 
 echo 'Устанавливаем пароль пользователя'
-echo 123456 | passwd user
+passwd user
 
 echo 'Устанавливаем SUDO'
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
@@ -55,6 +55,7 @@ pacman -S xfce4 xfce4-goodies --noconfirm
 
 echo 'Cтавим DM'
 pacman -S sddm --noconfirm
+systemctl enable sddm
 
 echo 'Ставим шрифты'
 pacman -S ttf-liberation ttf-dejavu opendesktop-fonts ttf-bitstream-vera ttf-arphic-ukai ttf-arphic-uming ttf-hanazono 
