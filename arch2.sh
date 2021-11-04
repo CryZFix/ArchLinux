@@ -55,7 +55,6 @@ pacman -S xfce4 xfce4-goodies --noconfirm
 
 echo 'Cтавим DM'
 pacman -S sddm --noconfirm
-systemctl enable sddm
 
 echo 'Ставим шрифты'
 pacman -S ttf-liberation ttf-dejavu opendesktop-fonts ttf-bitstream-vera ttf-arphic-ukai ttf-arphic-uming ttf-hanazono 
