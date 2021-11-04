@@ -1,4 +1,9 @@
 #!/bin/bash
+read -p "Введите имя компьютера: " hostname
+read -p "Введите имя пользователя: " username
+
+echo 'Прописываем имя компьютера'
+echo $hostname > /etc/hostname
 ln -svf /usr/share/zoneinfo/Europe/Samara /etc/localtime
 
 echo '3.4 Добавляем русскую локаль системы'
@@ -30,13 +35,13 @@ echo 'Ставим программу для Wi-fi'
 pacman -S dialog wpa_supplicant --noconfirm 
 
 echo 'Добавляем пользователя'
-useradd -m -g users -G wheel -s /bin/bash user
+useradd -m -g users -G wheel -s /bin/bash $username
 
 echo 'Создаем root пароль'
 passwd
 
 echo 'Устанавливаем пароль пользователя'
-passwd user
+passwd $username
 
 echo 'Устанавливаем SUDO'
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
@@ -46,8 +51,16 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
+echo "Куда устанавливем Arch Linux на виртуальную машину?"
+read -p "1 - Да, 0 - Нет: " vm_setting
+if [[ $vm_setting == 0 ]]; then
+  gui_install="xorg-server xorg-drivers xorg-xinit"
+elif [[ $vm_setting == 1 ]]; then
+  gui_install="xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils"
+fi
+
 echo 'Ставим иксы и драйвера'
-pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils lib32-mesa-libgl wget
+pacman -S $gui_install
 
 echo "Ставим XFCE"
 pacman -S xfce4 xfce4-goodies --noconfirm
@@ -57,16 +70,13 @@ pacman -S sddm --noconfirm
 systemctl enable sddm
 
 echo 'Ставим шрифты'
-pacman -S ttf-liberation ttf-dejavu opendesktop-fonts ttf-bitstream-vera ttf-arphic-ukai ttf-arphic-uming ttf-hanazono 
+pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
 echo 'Ставим сеть'
 pacman -S networkmanager network-manager-applet ppp --noconfirm
 
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
-
-echo 'Обновляем grub.cfg'
-grub-mkconfig -o /boot/grub/grub.cfg
 
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
