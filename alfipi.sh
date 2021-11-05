@@ -43,8 +43,8 @@ echo 'Качаем и устанавливаем настройки Xfce'
   # tar -czf config.tar.gz .config
   # Выгрузите архив в интернет и скорректируйте ссылку на свою.
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
-sudo rm -rf ~/.config/*
-sudo tar -xzf config.tar.gz -C ~/
+rm -rf ~/.config/*
+tar -xzf config.tar.gz -C ~/
 
 echo 'Делаем авто вход без DE?'
 read -p "1 - Да, 0 - Нет: " node_set
