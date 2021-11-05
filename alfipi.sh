@@ -52,7 +52,7 @@ echo 'Качаем и устанавливаем настройки Xfce'
   # Предварительно можно очистить конфиг от всего лишнего
   # tar -czf config.tar.gz .config
   # Выгрузите архив в интернет и скорректируйте ссылку на свою.
-wget https://github.com/ordanax/arch/raw/master/attach/config.tar.gz
+wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
 sudo rm -rf ~/.config/xfce4/*
 sudo tar -xzf config.tar.gz -C ~/
 
