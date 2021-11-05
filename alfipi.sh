@@ -3,6 +3,8 @@ mkdir ~/downloads
 cd ~/downloads
 
 echo 'Установка AUR (pikaur)'
+sudo pacman-key --init
+sudo pacman-key --populate
 sudo pacman -Syy wget git curl --needed base base-devel --noconfirm
 wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
 tar xzfv pikaur*
