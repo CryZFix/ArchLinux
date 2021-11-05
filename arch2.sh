@@ -60,6 +60,7 @@ pacman -S xfce4 xfce4-goodies --noconfirm
 echo 'Cтавим DM'
 pacman -S sddm --noconfirm
 systemctl enable sddm
+echo 'Numlock=on' > /etc/sddm.conf
 
 echo 'Ставим шрифты'
 pacman -S ttf-liberation ttf-dejavu --noconfirm 
@@ -72,5 +73,5 @@ systemctl enable NetworkManager
 
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
-echo 'wget git.io/alfi3.sh && sh alfi3.sh'
+echo 'wget git.io/alfipi.sh && sh alfipi.sh'
 exit
