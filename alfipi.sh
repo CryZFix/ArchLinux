@@ -1,4 +1,8 @@
 #!/bin/bash
+su
+echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+exit
+
 mkdir ~/downloads
 cd ~/downloads
 
@@ -20,7 +24,7 @@ sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
 
 echo 'Установка базовых программ и пакетов'
-sudo pacman -S ufw f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
+sudo pacman -S ufw f2fs-tools dosfstools xorg-xrandr ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
 
 echo 'Установить рекомендумые программы?'
 pikaur -S recoll google-chrome flameshot veracrypt vlc vim freemind icq-bin anydesk-bin libreoffice libreoffice-fresh-ru neofetch qbittorrent galculator --noconfirm
