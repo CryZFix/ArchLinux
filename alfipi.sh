@@ -14,13 +14,13 @@ sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
 
 echo 'Установка базовых программ и пакетов'
-sudo pacman -S reflector firefox ufw f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
+sudo pacman -S reflector ufw f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
 
 echo 'Установить рекомендумые программы?'
 read -p "1 - Да, 0 - Нет: " prog_set
 if [[ $prog_set == 1 ]]; then
   #Можно заменить на pacman -Qqm > ~/.pacmanlist.txt
-  pikaur -S recoll google-chrome flameshot veracrypt vlc freemind libreoffice libreoffice-fresh-ru kdenlive neofetch qbittorrent galculator --noconfirm
+  pikaur -S recoll google-chrome flameshot veracrypt vlc vim freemind icq-bin anydesk-bin libreoffice libreoffice-fresh-ru neofetch qbittorrent galculator --noconfirm
   pikaur -Syy
   pikaur -S xflux hunspell-ru pamac-aur-git megasync-nopdfium trello xorg-xkill ttf-symbola ttf-clear-sans --noconfirm
 elif [[ $prog_set == 0 ]]; then
@@ -50,7 +50,7 @@ if [[ $xfce_set == 1 ]]; then
   sudo mv -f ~/downloads/arch_logo.png /usr/share/pixmaps/arch_logo.png
   
   echo 'Удаляем лишнее из xfce4'
-  sudo pacman -Rs xfburn orage parole mousepad xfce4-appfinder xfce4-clipman-plugin xfce4-timer-plugin xfce4-time-out-plugin xfce4-artwork xfce4-taskmanager xfce4-smartbookmark-plugin xfce4-sensors-plugin xfce4-screenshooter xfce4-notes-plugin xfce4-netload-plugin xfce4-mpc-plugin xfce4-mount-plugin xfce4-mailwatch-plugin xfce4-genmon-plugin xfce4-fsguard-plugin xfce4-eyes-plugin xfce4-diskperf-plugin xfce4-dict xfce4-cpugraph-plugin xfce4-cpufreq-plugin
+  sudo pacman -Rs xfburn orage parole mousepad xfce4-appfinder xfce4-clipman-plugin xfce4-timer-plugin xfce4-time-out-plugin xfce4-artwork xfce4-taskmanager xfce4-smartbookmark-plugin xfce4-sensors-plugin xfce4-notes-plugin xfce4-netload-gin xfce4-dplugin xfce4-mpc-plugin xfce4-mount-plugin xfce4-mailwatch-plugin xfce4-genmon-plugin xfce4-fsguard-plugin xfce4-eyes-pluiskperf-plugin xfce4-dict xfce4-cpugraph-plugin xfce4-cpufreq-plugin
 
   echo 'Ставим обои на рабочий стол'
   wget git.io/bg.jpg
