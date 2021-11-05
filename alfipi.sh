@@ -2,7 +2,7 @@
 mkdir ~/downloads
 cd ~/downloads
 
-localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
+sudo localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
 
 echo 'Установка AUR (pikaur)'
 sudo pacman-key --init
