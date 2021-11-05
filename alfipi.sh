@@ -2,6 +2,8 @@
 mkdir ~/downloads
 cd ~/downloads
 
+localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
+
 echo 'Установка AUR (pikaur)'
 sudo pacman-key --init
 sudo pacman-key --populate
@@ -16,7 +18,7 @@ sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
 
 echo 'Установка базовых программ и пакетов'
-sudo pacman -S reflector ufw f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
+sudo pacman -S reflector ufw f2fs-tools dosfstools ntfs-3g alsa-lib nomachine alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
 
 echo 'Установить рекомендумые программы?'
 read -p "1 - Да, 0 - Нет: " prog_set
