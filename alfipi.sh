@@ -7,7 +7,7 @@ sudo pacman -Syy wget git curl --needed base base-devel --noconfirm
 wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
 tar xzfv pikaur*
 cd pikaur
-makepkg -fsri
+makepkg -fsri --noconfirm
 
 echo 'Создаем нужные директории'
 sudo pacman -S xdg-user-dirs --noconfirm
