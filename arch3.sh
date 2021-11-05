@@ -2,6 +2,18 @@
 mkdir ~/downloads
 cd ~/downloads
 
+echo 'Установка AUR (pikaur)'
+sudo pacman -Sy wget --needed base base-devel --noconfirm
+wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
+tar xzfv pikaur*
+cd pikaur
+makepkg -fsri
+cd ..
+rm pikaur* -r
+pikaur -Syyau --noconfirm
+
+localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
+
 echo 'Создаем нужные директории'
 sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
