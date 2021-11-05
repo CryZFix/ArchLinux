@@ -26,6 +26,26 @@ pikaur -Syy
 pikaur -S xflux hunspell-ru pamac-aur-git megasync-nopdfium trello xorg-xkill ttf-symbola ttf-clear-sans nomachine --noconfirm
 sudo pacman -Rs xfburn orage parole mousepad xfce4-appfinder xfce4-clipman-plugin xfce4-timer-plugin xfce4-time-out-plugin xfce4-artwork xfce4-taskmanager xfce4-smartbookmark-plugin xfce4-sensors-plugin xfce4-notes-plugin xfce4-netload-plugin xfce4-dplugin xfce4-mpc-plugin xfce4-mount-plugin xfce4-mailwatch-plugin xfce4-genmon-plugin xfce4-fsguard-plugin xfce4-eyes-pluiskperf-plugin xfce4-dict xfce4-cpugraph-plugin xfce4-cpufreq-plugin
 
+# Подключаем zRam
+pikaur -S zramswap --noconfirm
+sudo systemctl enable zramswap.service
+
+echo 'Включаем сетевой экран'
+sudo ufw enable
+
+echo 'Добавляем в автозагрузку:'
+sudo systemctl enable ufw
+
+echo 'Качаем и устанавливаем настройки Xfce'
+  # Чтобы сделать копию ваших настоек перейдите в домашнюю директорию ~/username 
+  # открйте в этой категории терминал и выполните команду ниже
+  # Предварительно можно очистить конфиг от всего лишнего
+  # tar -czf config.tar.gz .config
+  # Выгрузите архив в интернет и скорректируйте ссылку на свою.
+wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
+sudo rm -rf ~/.config/*
+sudo tar -xzf config.tar.gz -C ~/
+
 echo 'Делаем авто вход без DE?'
 read -p "1 - Да, 0 - Нет: " node_set
 if [[ $node_set == 1 ]]; then
@@ -45,26 +65,6 @@ sudo mv -f ~/downloads/override.conf /etc/systemd/system/getty@tty1.service.d/ov
 elif [[ $node_set == 0 ]]; then
   echo 'Пропускаем.'
 fi
-
-echo 'Качаем и устанавливаем настройки Xfce'
-  # Чтобы сделать копию ваших настоек перейдите в домашнюю директорию ~/username 
-  # открйте в этой категории терминал и выполните команду ниже
-  # Предварительно можно очистить конфиг от всего лишнего
-  # tar -czf config.tar.gz .config
-  # Выгрузите архив в интернет и скорректируйте ссылку на свою.
-wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
-sudo rm -rf ~/.config/xfce4/*
-sudo tar -xzf config.tar.gz -C ~/
-
-# Подключаем zRam
-pikaur -S zramswap --noconfirm
-sudo systemctl enable zramswap.service
-
-echo 'Включаем сетевой экран'
-sudo ufw enable
-
-echo 'Добавляем в автозагрузку:'
-sudo systemctl enable ufw
 
 # Очистка
 rm -rf ~/downloads/
