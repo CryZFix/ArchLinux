@@ -38,15 +38,6 @@ if [[ $xfce_set == 1 ]]; then
   # Предварительно можно очистить конфиг от всего лишнего
   # tar -czf config.tar.gz .config
   # Выгрузите архив в интернет и скорректируйте ссылку на свою.
-  wget https://github.com/ordanax/arch/raw/master/attach/config.tar.gz
-  sudo rm -rf ~/.config/xfce4/*
-  sudo tar -xzf config.tar.gz -C ~/
-  echo 'Удаление тем по умолчанию'
-  sudo rm -rf /usr/share/themes/*
-  echo 'Установка тем'
-  pikaur -S x-arc-shadow papirus-maia-icon-theme-git breeze-default-cursor-theme --noconfirm
-  sudo pacman -S capitaine-cursors --noconfirm
-  
   echo 'Ставим лого ArchLinux в меню'
   wget git.io/arch_logo.png
   sudo mv -f ~/downloads/arch_logo.png /usr/share/pixmaps/arch_logo.png
