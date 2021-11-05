@@ -5,6 +5,8 @@ cd ~/downloads
 localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
 
 echo 'Установка AUR (pikaur)'
+sudo pacman -R reflector --noconfirm
+echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 sudo pacman-key --init
 sudo pacman-key --populate
 sudo pacman -Syy wget git curl --needed base base-devel --noconfirm
@@ -18,7 +20,7 @@ sudo pacman -S xdg-user-dirs --noconfirm
 xdg-user-dirs-update
 
 echo 'Установка базовых программ и пакетов'
-sudo pacman -S reflector ufw f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
+sudo pacman -S ufw f2fs-tools dosfstools ntfs-3g alsa-lib alsa-utils file-roller p7zip unrar gvfs aspell-ru pulseaudio pavucontrol --noconfirm
 
 echo 'Установить рекомендумые программы?'
 pikaur -S recoll google-chrome flameshot veracrypt vlc vim freemind icq-bin anydesk-bin libreoffice libreoffice-fresh-ru neofetch qbittorrent galculator --noconfirm
