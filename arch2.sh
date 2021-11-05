@@ -9,7 +9,6 @@ ln -svf /usr/share/zoneinfo/Europe/Samara /etc/localtime
 echo '3.4 Добавляем русскую локаль системы'
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
-localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
 
 echo 'Обновим текущую локаль системы'
 locale-gen
@@ -70,16 +69,6 @@ pacman -S networkmanager network-manager-applet ppp --noconfirm
 
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
-
-echo 'Установка AUR (pikaur)'
-sudo pacman -Sy wget --needed base base-devel --noconfirm
-wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
-tar xzfv pikaur*
-cd pikaur
-makepkg -fsri
-cd ..
-rm pikaur* -r
-pikaur -Syyau --noconfirm
 
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
