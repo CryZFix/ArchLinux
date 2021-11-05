@@ -30,7 +30,7 @@ echo 'Делаем авто вход без DE?'
 read -p "1 - Да, 0 - Нет: " node_set
 if [[ $node_set == 1 ]]; then
 sudo systemctl disable sddm
-sudo pacman -R sddm
+sudo pacman -R sddm --noconfirm
 sudo pacman -S xorg-xinit --noconfirm
 cp /etc/X11/xinit/xserverrc ~/.xserverrc
 wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.xinitrc
