@@ -5,8 +5,6 @@ cd ~/downloads
 localectl --no-convert set-x11-keymap us,ru "" "" grp:alt_shift_toggle
 
 echo 'Установка AUR (pikaur)'
-sudo pacman -R reflector --noconfirm
-sudo echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 sudo pacman-key --init
 sudo pacman-key --populate
 sudo pacman -Syy wget git curl --needed base base-devel --noconfirm
