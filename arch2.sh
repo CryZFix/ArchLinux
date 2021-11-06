@@ -52,7 +52,7 @@ echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 echo 'Ставим иксы и драйвера'
-pacman -S wget tar xorg-server xorg-drivers xorg-xinit bash-completion --noconfirm
+pacman -S wget tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
 
 echo "Ставим XFCE"
 pacman -S xfce4 xfce4-goodies --noconfirm
@@ -84,7 +84,7 @@ sudo rm -rf /home/$username/.config/xfce4*
 sudo tar -xzf config.tar.gz -C /home/$username/
 wget https://github.com/CryZFix/ArchLinux_FastInstall_Private/raw/main/attach/bg.jpg
 sudo rm -rf /usr/share/backgrounds/xfce/* #Удаляем стандартные обои
-sudo mv -f downloads/bg.jpg /usr/share/backgrounds/xfce/bg.jpg
+sudo mv -f bg.jpg /usr/share/backgrounds/xfce/bg.jpg
 
 echo 'Делаем авто вход без DE?'
 read -p "1 - Да, 0 - Нет: " node_set
@@ -98,9 +98,9 @@ sudo mv -f .xinitrc /home/$username/.xinitrc
 wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.bashrc
 rm /home/$username/.bashrc
 sudo mv -f .bashrc /home/$username/.bashrc
-sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > downloads/override.conf
+sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
-sudo mv -f downloads/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
+sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
 elif [[ $node_set == 0 ]]; then
   echo 'Пропускаем.'
 fi
