@@ -68,10 +68,11 @@ echo 'Ставим шрифты'
 pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
 echo 'Ставим сеть'
-pacman -S networkmanager network-manager-applet ppp --noconfirm
+pacman -S networkmanager network-manager-applet ppp openssh --noconfirm
 
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
+systemctl enable sshd
 
 echo 'Качаем и устанавливаем настройки Xfce'
   # Чтобы сделать копию ваших настоек перейдите в домашнюю директорию ~/username 
@@ -110,6 +111,5 @@ fi
 
 rm -rf downloads
 
-echo 'Установка завершена! Перезагрузка системы.'
-sleep 5
-reboot
+echo 'Установка завершена! Перезагрузите систему, вводом: reboot.'
+exit
