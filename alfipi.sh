@@ -35,5 +35,4 @@ sudo ufw allow ssh
 
 pikaur -S nomachine --noconfirm
 
-echo 'Установка завершена! Выход через 5 секунд.'
-sleep 5
+echo 'Установка завершена! Закрывай окно.'
