@@ -98,7 +98,7 @@ sudo pacman -S xorg-xinit --noconfirm
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
 wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.xinitrc
 sudo mv -f .xinitrc /home/$username/.xinitrc
-wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.bashrc
+wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/.bashrc
 rm /home/$username/.bashrc
 sudo mv -f .bashrc /home/$username/.bashrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
