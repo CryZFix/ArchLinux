@@ -9,6 +9,6 @@ fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias postinstaller='sh -c "$(curl -fsSL git.io/alfipi.sh)"'
+alias postinstaller='wget git.io/alfipi.sh && sh alfipi.sh && rm alfipi.sh'
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
