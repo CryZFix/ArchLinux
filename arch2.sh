@@ -73,6 +73,7 @@ pacman -S networkmanager network-manager-applet ppp openssh --noconfirm
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
 systemctl enable sshd
+echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
 echo 'Качаем и устанавливаем настройки Xfce'
   # Чтобы сделать копию ваших настоек перейдите в домашнюю директорию ~/username 
