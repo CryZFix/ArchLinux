@@ -71,6 +71,42 @@ pacman -S networkmanager network-manager-applet ppp --noconfirm
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
 
+echo 'Качаем и устанавливаем настройки Xfce'
+  # Чтобы сделать копию ваших настоек перейдите в домашнюю директорию ~/username 
+  # открйте в этой категории терминал и выполните команду ниже
+  # Предварительно можно очистить конфиг от всего лишнего
+  # tar -czf config.tar.gz .config
+  # Выгрузите архив в интернет и скорректируйте ссылку на свою.
+mkdir downloads
+cd downloads
+wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
+sudo rm -rf /home/$username/.config/xfce4*
+sudo tar -xzf config.tar.gz -C /home/$username/
+wget https://github.com/CryZFix/ArchLinux_FastInstall_Private/raw/main/attach/bg.jpg
+sudo rm -rf /usr/share/backgrounds/xfce/* #Удаляем стандартные обои
+sudo mv -f downloads/bg.jpg /usr/share/backgrounds/xfce/bg.jpg
+
+echo 'Делаем авто вход без DE?'
+read -p "1 - Да, 0 - Нет: " node_set
+if [[ $node_set == 1 ]]; then
+sudo systemctl disable sddm
+sudo pacman -R sddm --noconfirm
+sudo pacman -S xorg-xinit --noconfirm
+cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
+wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.xinitrc
+sudo mv -f .xinitrc /home/$username/.xinitrc
+wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.bashrc
+rm /home/$username/.bashrc
+sudo mv -f .bashrc /home/$username/.bashrc
+sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > downloads/override.conf
+sudo mkdir /etc/systemd/system/getty@tty1.service.d/
+sudo mv -f downloads/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
+elif [[ $node_set == 0 ]]; then
+  echo 'Пропускаем.'
+fi
+
+rm -rf downloads
+
 echo 'Установка завершена! Перезагрузите систему.'
 echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрзки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
 echo 'wget git.io/alfipi.sh && sh alfipi.sh'
