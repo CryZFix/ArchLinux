@@ -79,7 +79,7 @@ echo 'Качаем и устанавливаем настройки Xfce'
   # Предварительно можно очистить конфиг от всего лишнего
   # tar -czf config.tar.gz .config
   # Выгрузите архив в интернет и скорректируйте ссылку на свою.
-pacman -S arc-gtk-theme
+pacman -S arc-gtk-theme --noconfirm
 mkdir downloads
 cd downloads
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
