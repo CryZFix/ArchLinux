@@ -24,6 +24,8 @@ echo 'Создадим загрузочный RAM диск'
 mkinitcpio -p linux
 
 echo '3.5 Устанавливаем загрузчик'
+pacman-key --init
+pacman-key --populate
 pacman -Syy
 pacman -S grub --noconfirm 
 grub-install /dev/sda
@@ -77,6 +79,7 @@ echo 'Качаем и устанавливаем настройки Xfce'
   # Предварительно можно очистить конфиг от всего лишнего
   # tar -czf config.tar.gz .config
   # Выгрузите архив в интернет и скорректируйте ссылку на свою.
+pacman -S arc-gtk-theme
 mkdir downloads
 cd downloads
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
