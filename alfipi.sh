@@ -31,6 +31,7 @@ sudo ufw enable
 
 echo 'Добавляем в автозагрузку:'
 sudo systemctl enable ufw
+sudo ufw allow ssh
 
 pikaur -S nomachine --noconfirm
 
