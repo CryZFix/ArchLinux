@@ -84,6 +84,9 @@ echo 'Качаем и устанавливаем настройки Xfce'
 pacman -S arc-gtk-theme --noconfirm
 mkdir downloads
 cd downloads
+wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/.bashrc
+rm /home/$username/.bashrc
+sudo mv -f .bashrc /home/$username/.bashrc
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
 sudo rm -rf /home/$username/.config/xfce4*
 sudo tar -xzf config.tar.gz -C /home/$username/
@@ -95,14 +98,10 @@ echo 'Делаем авто вход без DE?'
 read -p "1 - Да, 0 - Нет: " node_set
 if [[ $node_set == 1 ]]; then
 sudo systemctl disable sddm
-sudo pacman -R sddm --noconfirm
 sudo pacman -S xorg-xinit --noconfirm
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
 wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.xinitrc
 sudo mv -f .xinitrc /home/$username/.xinitrc
-wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/.bashrc
-rm /home/$username/.bashrc
-sudo mv -f .bashrc /home/$username/.bashrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
