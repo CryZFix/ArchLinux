@@ -1,19 +1,7 @@
 #!/bin/bash
 
-# Arch Linux Fast Install - Быстрая установка Arch Linux https://github.com/ordanax/arch2018
-# Цель скрипта - быстрое развертывание системы с вашими персональными настройками (конфиг XFCE, темы, программы и т.д.).
-
-# В разработке принимали участие:
-# Алексей Бойко https://vk.com/ordanax
-# Степан Скрябин https://vk.com/zurg3
-# Михаил Сарвилин https://vk.com/michael170707
-# Данил Антошкин https://vk.com/danil.antoshkin
-# Юрий Порунцов https://vk.com/poruncov
-
 loadkeys ru
 setfont cyr-sun16
-echo 'Скрипт сделан на основе чеклиста Бойко Алексея по Установке ArchLinux'
-echo 'Ссылка на чек лист есть в группе vk.com/arch4u'
 
 echo '2.3 Синхронизация системных часов'
 timedatectl set-ntp true
