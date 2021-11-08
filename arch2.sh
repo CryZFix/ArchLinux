@@ -76,11 +76,7 @@ systemctl enable sshd
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
 echo 'Качаем и устанавливаем настройки Xfce'
-  # Чтобы сделать копию ваших настоек перейдите в домашнюю директорию ~/username 
-  # открйте в этой категории терминал и выполните команду ниже
-  # Предварительно можно очистить конфиг от всего лишнего
-  # tar -czf config.tar.gz .config
-  # Выгрузите архив в интернет и скорректируйте ссылку на свою.
+  # tar -czf config.tar.gz .config для архивации настроек
 pacman -S arc-gtk-theme --noconfirm
 mkdir downloads
 cd downloads

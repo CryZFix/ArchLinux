@@ -19,7 +19,7 @@ sudo pacman -S ufw f2fs-tools dosfstools xorg-xrandr ntfs-3g alsa-lib alsa-utils
 echo 'Установить рекомендумые программы'
 pikaur -S google-chrome remmina freerdp veracrypt vlc vim icq-bin anydesk-bin whatsapp-for-linux viber libreoffice libreoffice-fresh-ru neofetch qbittorrent galculator --noconfirm
 pikaur -Syy
-pikaur -S xflux hunspell-ru pamac-aur-git megasync-nopdfium xorg-xkill ttf-symbola ttf-clear-sans bash-completion --noconfirm
+pikaur -S xflux hunspell-ru pamac-aur-git megasync-nopdfium xorg-xkill ttf-symbola ttf-clear-sans --noconfirm
 sudo pacman -Rs xfburn orage parole mousepad xfce4-appfinder xfce4-clipman-plugin xfce4-timer-plugin xfce4-time-out-plugin xfce4-artwork xfce4-taskmanager xfce4-smartbookmark-plugin xfce4-sensors-plugin xfce4-notes-plugin xfce4-netload-plugin xfce4-dplugin xfce4-mpc-plugin xfce4-mount-plugin xfce4-mailwatch-plugin xfce4-genmon-plugin xfce4-fsguard-plugin xfce4-eyes-pluiskperf-plugin xfce4-dict xfce4-cpugraph-plugin xfce4-cpufreq-plugin
 
 # Подключаем zRam
