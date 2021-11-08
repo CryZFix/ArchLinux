@@ -15,9 +15,8 @@
 
 Видео с демонстрацией работы скрипта https://www.youtube.com/watch?v=nvVF_qKDUeM
 
-# Установка 
-1) Скачать и записать на флешку ISO образ Arch Linux https://www.archlinux.org/download/
-2) Скачать и запустить скрипт командой:
+# Использование 
+1) Запустившись с ранее подготовленного ISO-образа, скачать и запустить скрипт командой:
 
    ```bash 
    wget git.io/al_fast_installer.sh && sh al_fast_installer.sh
