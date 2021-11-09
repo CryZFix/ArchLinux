@@ -10,6 +10,7 @@ wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
 tar xzfv pikaur*
 cd pikaur
 makepkg -fsri --noconfirm
+cd ..
 
 echo 'Создаем нужные директории'
 sudo pacman -S xdg-user-dirs --noconfirm
