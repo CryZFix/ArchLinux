@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir files
+cd files
 echo 'Установка AUR (pikaur)'
 sudo pacman-key --init
 sudo pacman-key --populate
@@ -36,4 +38,6 @@ sudo systemctl restart nxserver
 pikaur -S zramswap --noconfirm
 sudo systemctl enable zramswap.service
 
+cd ..
+rm -rf files
 echo 'Установка завершена.'
