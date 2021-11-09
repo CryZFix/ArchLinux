@@ -25,6 +25,7 @@ sudo systemctl enable anydesk
 sudo systemctl restart anydesk
 
 echo 'Редактим конфиг NoMachine'
+sudo killall nxserver.bin
 wget 'https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/nxconfig'
 sudo rm /usr/NX/etc/server.cfg
 sudo mv nxconfig /usr/NX/etc/server.cfg
