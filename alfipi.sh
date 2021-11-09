@@ -28,4 +28,4 @@ systemctl restart anydesk
 pikaur -S zramswap --noconfirm
 sudo systemctl enable zramswap.service
 
-echo 'Установка завершена! Закрывай окно.'
+echo 'Установка завершена.'
