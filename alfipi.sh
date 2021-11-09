@@ -21,11 +21,15 @@ pikaur -S google-chrome anydesk-bin nomachine remmina freerdp veracrypt vlc vim 
 pikaur -Syy
 pikaur -S xflux hunspell-ru megasync-nopdfium xorg-xkill ttf-symbola ttf-clear-sans --noconfirm
 sudo pacman -Rs xfburn orage parole mousepad xfce4-appfinder xfce4-clipman-plugin xfce4-timer-plugin xfce4-time-out-plugin xfce4-artwork xfce4-taskmanager xfce4-smartbookmark-plugin xfce4-sensors-plugin xfce4-notes-plugin xfce4-netload-plugin xfce4-dplugin xfce4-mpc-plugin xfce4-mount-plugin xfce4-mailwatch-plugin xfce4-genmon-plugin xfce4-fsguard-plugin xfce4-eyes-pluiskperf-plugin xfce4-dict xfce4-cpugraph-plugin xfce4-cpufreq-plugin
+sudo systemctl enable anydesk
+sudo systemctl restart anydesk
 
 echo 'Редактим конфиг NoMachine'
 wget 'https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/nxconfig'
 sudo rm /usr/NX/etc/server.cfg
 sudo mv nxconfig /usr/NX/etc/server.cfg
+sudo systemctl enable nxserver
+sudo systemctl restart nxserver
 
 # Подключаем zRam
 pikaur -S zramswap --noconfirm
