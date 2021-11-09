@@ -68,7 +68,7 @@ echo 'Ставим шрифты'
 pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
 echo 'Ставим сеть'
-pacman -S networkmanager network-manager-applet ppp openssh --noconfirm
+pacman -S networkmanager networkmanager-openvpn networkmanager-vpnc networkmanager-openconnect networkmanager-pptp network-manager-applet ppp openssh --noconfirm
 
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
