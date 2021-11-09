@@ -1,6 +1,6 @@
 ConfigFileVersion 4.0
 
-NXPort 4312
+NXPort 55555
 EnableUPnP NX
 EnablePasswordDB 0
 StartNXDaemon 1
