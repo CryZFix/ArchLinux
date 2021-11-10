@@ -24,7 +24,7 @@ pikaur -S google-chrome nomachine remmina freerdp veracrypt vlc vim icq-bin anyd
 pikaur -Syy
 pikaur -S xflux hunspell-ru megasync-nopdfium xorg-xkill ttf-symbola ttf-clear-sans --noconfirm
 sudo pacman -Rs xfburn orage parole mousepad xfce4-appfinder xfce4-clipman-plugin xfce4-timer-plugin xfce4-time-out-plugin xfce4-artwork xfce4-taskmanager xfce4-smartbookmark-plugin xfce4-sensors-plugin xfce4-notes-plugin xfce4-netload-plugin xfce4-dplugin xfce4-mpc-plugin xfce4-mount-plugin xfce4-mailwatch-plugin xfce4-genmon-plugin xfce4-fsguard-plugin xfce4-eyes-pluiskperf-plugin xfce4-dict xfce4-cpugraph-plugin xfce4-cpufreq-plugin
-pikaur -Syy anydesk-bin
+pikaur -Syy anydesk-bin --noconfirm
 sudo systemctl enable anydesk
 sudo systemctl restart anydesk
 
