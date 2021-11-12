@@ -80,9 +80,9 @@ echo 'Качаем и устанавливаем настройки Xfce'
 pacman -S arc-gtk-theme --noconfirm
 mkdir downloads
 cd downloads
-wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/.bashrc
+wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/bashrc
 rm /home/$username/.bashrc
-sudo mv -f .bashrc /home/$username/.bashrc
+sudo mv -f bashrc /home/$username/.bashrc
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
 sudo rm -rf /home/$username/.config/xfce4*
 sudo tar -xzf config.tar.gz -C /home/$username/
@@ -107,5 +107,5 @@ fi
 
 rm -rf downloads
 
-echo 'Установка системы завершена! Перезагрузите систему, вводом: reboot.'
+echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
 exit
