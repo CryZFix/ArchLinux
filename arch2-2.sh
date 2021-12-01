@@ -1,9 +1,4 @@
 #!/bin/bash
-read -p "Введите имя компьютера: " hostname
-read -p "Введите имя пользователя: " username
-
-echo 'Прописываем имя компьютера'
-echo $hostname > /etc/hostname
 ln -svf /usr/share/zoneinfo/Europe/Samara /etc/localtime
 
 echo '3.4 Добавляем русскую локаль системы'
@@ -36,18 +31,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo 'Ставим программу для Wi-fi'
 pacman -S dialog wpa_supplicant netctl --noconfirm 
 
-echo 'Добавляем пользователя'
-useradd -m -g users -G wheel -s /bin/bash $username
-
-echo 'Создаем root пароль'
-passwd
-
-echo 'Устанавливаем пароль пользователя'
-passwd $username
-
-echo 'Устанавливаем SUDO'
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
-
 echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
@@ -66,6 +49,9 @@ systemctl enable sshd
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
 rm -rf downloads
+
+echo 'Создаем root пароль'
+passwd
 
 echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
 exit
