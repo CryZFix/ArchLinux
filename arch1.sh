@@ -61,5 +61,3 @@ arch-chroot /mnt sh -c "$(curl -fsSL git.io/alfi2.sh)"
 elif [[ $node_set == 0 ]]; then
 arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/arch2-2.sh)"
 fi
-
-arch-chroot /mnt sh -c "$(curl -fsSL git.io/alfi2.sh)"
