@@ -40,15 +40,10 @@ pacman -S wget tar bash-completion --noconfirm
 echo 'Ставим шрифты'
 pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
-echo 'Ставим сеть'
-pacman -S networkmanager networkmanager-openvpn networkmanager-vpnc networkmanager-openconnect networkmanager-pptp network-manager-applet ppp openssh --noconfirm
-
 echo 'Подключаем автозагрузку менеджера входа и интернет'
-systemctl enable NetworkManager
+systemctl enable dhcpcd
 systemctl enable sshd
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
-
-rm -rf downloads
 
 echo 'Создаем root пароль'
 passwd
