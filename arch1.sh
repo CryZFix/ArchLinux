@@ -56,9 +56,11 @@ echo '3.3 Настройка системы'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
 echo 'С грфикой?'
-read -p "1 - Да, 0 - Нет: " node_set
+read -p "1 - Да, 0 - Нет, 3 - MinimalSerrver " node_set
 if [[ $node_set == 1 ]]; then
 arch-chroot /mnt sh -c "$(curl -fsSL git.io/alfi2.sh)"
 elif [[ $node_set == 0 ]]; then
 arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/arch2-2.sh)"
+elif [[ $node_set == 3 ]]; then
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/arch2-3.sh)"
 fi
