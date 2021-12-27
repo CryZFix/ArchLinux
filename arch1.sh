@@ -50,8 +50,7 @@ echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman
 echo "Server = https://mirror.rol.ru/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
 
 echo '3.2 Установка основных пакетов'
-pacstrap /mnt base base-devel 
-echo 'base-devel linux linux-firmware nano dhcpcd netctl ttf-liberation ttf-dejavu wget tar bash-completion openssh dialog wpa_supplicant'
+pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl ttf-liberation ttf-dejavu wget tar bash-completion openssh dialog wpa_supplicant
 
 echo '3.3 Настройка системы'
 genfstab -pU /mnt >> /mnt/etc/fstab
