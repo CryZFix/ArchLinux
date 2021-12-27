@@ -24,7 +24,7 @@ grub-install /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
-systemctl enable NetworkManager
+systemctl enable dhcpcd
 systemctl enable sshd
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
