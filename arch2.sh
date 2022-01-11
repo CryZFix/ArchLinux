@@ -85,9 +85,6 @@ sudo mv -f bashrc /home/$username/.bashrc
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
 sudo rm -rf /home/$username/.config/xfce4*
 sudo tar -xzf config.tar.gz -C /home/$username/
-wget https://github.com/CryZFix/ArchLinux_FastInstall_Private/raw/main/attach/wallpapers.tar.gz
-sudo rm -rf /usr/share/backgrounds/xfce/* #Удаляем стандартные обои
-sudo tar -xzf wallpapers.tar.gz -C /usr/share/backgrounds/xfce/
 wget  https://git.io/alfipi.sh 
 mv -f alfipi.sh /home/$username/alfipi.sh
 
