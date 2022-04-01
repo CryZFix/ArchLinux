@@ -9,8 +9,8 @@ fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-export EDITOR='nano'
-export VISUAL='nano'
+export EDITOR='vim'
+export VISUAL='vim'
 
 alias postinstaller='wget git.io/alfipi.sh && sh alfipi.sh && rm alfipi.sh'
 alias ls='ls --color=auto'
@@ -27,6 +27,7 @@ alias l='ls'
 alias l.="ls -A | egrep '^\.'"
 
 #fix obvious typo's
+alias ..="cd .."
 alias cd..='cd ..'
 alias pdw="pwd"
 
