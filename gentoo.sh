@@ -58,7 +58,7 @@ mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev 
 mount --make-rslave /mnt/gentoo/dev
 
-chroot /mnt/gentoo /bin/bash 
+chroot /mnt/gentoo sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/ArchLinux/main/gentoo2.sh)"
 
 cd
 umount -l /mnt/gentoo/dev{/shm,/pts,} 
