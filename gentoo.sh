@@ -27,7 +27,7 @@ echo 'Creating partitions'
 
 echo 'Formatting disks'
 mkfs.ext2  /dev/sda1 -L boot
-mkfs.ext4  /dev/sda3 -L root
+mkfs.btrfs  /dev/sda3 -L root
 mkswap /dev/sda2 -L swap
 
 echo 'Mounting disks'
@@ -48,7 +48,7 @@ links 'https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/curre
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 read -p "Enter the number of threads on your processor (not cores, just threads): " cputhreads
-echo MAKEOPTS="-j$cputhreads" >> /mnt/gentoo/etc/portage/make.conf
+echo MAKEOPTS='"-j$cputhreads"' >> /mnt/gentoo/etc/portage/make.conf
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
@@ -59,3 +59,9 @@ mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
 
 chroot /mnt/gentoo /bin/bash 
+
+cd
+umount -l /mnt/gentoo/dev{/shm,/pts,} 
+umount -R /mnt/gentoo
+
+echo 'Installation was complity. You can reboot PC..'
