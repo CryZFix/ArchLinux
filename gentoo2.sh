@@ -1,8 +1,8 @@
 #!/bin/bash
 
 emerge cpuid2cpuflags
-cpuid2cpuflags >> /mnt/gentoo/etc/portage/make.conf
-echo ACCEPT_LICENSE="*" >> /mnt/gentoo/etc/portage/make.conf
+cpuid2cpuflags >> /etc/portage/make.conf
+echo ACCEPT_LICENSE="*" >> /etc/portage/make.conf
 
 source /etc/profile
 export PS1="(chroot) $PS1"
