@@ -52,6 +52,9 @@ echo MAKEOPTS='"-j$cputhreads"' >> /mnt/gentoo/etc/portage/make.conf
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
+mkdir /mnt/gentoo/etc/portage/repos.conf
+cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys 
 mount --make-rslave /mnt/gentoo/sys 
