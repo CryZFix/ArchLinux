@@ -1,7 +1,5 @@
 #!/bin/bash
 
-emerge cpuid2cpuflags
-cpuid2cpuflags >> /etc/portage/make.conf
 echo ACCEPT_LICENSE="*" >> /etc/portage/make.conf
 
 source /etc/profile
@@ -14,6 +12,8 @@ read -p "Enter number your choice profile: " setprofile
 eselect profile set $setprofile
 
 emerge -qavuDN @world
+emerge cpuid2cpuflags
+cpuid2cpuflags >> /etc/portage/make.conf
 
 echo "Europe/Samara" > /etc/timezone
 emerge --config sys-libs/timezone-data
