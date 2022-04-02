@@ -1,12 +1,6 @@
 #!/bin/bash
 
-loadkeys ru
-setfont cyr-sun16
-
-echo '2.3 Синхронизация системных часов'
-timedatectl set-ntp true
-
-echo '2.4 создание разделов'
+echo 'Creating partitions'
 (
   echo o;
 
@@ -31,12 +25,12 @@ echo '2.4 создание разделов'
   echo w;
 ) | fdisk /dev/sda
 
-echo '2.4.2 Форматирование дисков'
+echo 'Formatting disks'
 mkfs.ext2  /dev/sda1 -L boot
 mkfs.ext4  /dev/sda3 -L root
 mkswap /dev/sda2 -L swap
 
-echo '2.4.3 Монтирование дисков'
+echo 'Mounting disks'
 mount /dev/sda3 /mnt/gentoo
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/gentoo/boot
@@ -47,12 +41,14 @@ date $datatime
 
 cd /mnt/gentoo
 
+echo 'Select the desired stage3 -- tar.xz'
+read -n 1 -s -r -p "Press any key to continue"
 links 'https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/current-stage3-amd64-openrc/'
 
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 read -p "Enter the number of threads on your processor (not cores, just threads): " cputhreads
-echo MAKEOPTS="$cputhreads" >> /mnt/gentoo/etc/portage/make.conf
+echo MAKEOPTS="-j$cputhreads" >> /mnt/gentoo/etc/portage/make.conf
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
@@ -61,3 +57,5 @@ mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys 
 mount --rbind /dev /mnt/gentoo/dev 
 mount --make-rslave /mnt/gentoo/dev
+
+chroot /mnt/gentoo /bin/bash 
