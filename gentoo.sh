@@ -32,7 +32,7 @@ mkswap /dev/sda2 -L swap
 
 echo 'Mounting disks'
 mount /dev/sda3 /mnt/gentoo
-mkdir /mnt/boot
+mkdir /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 swapon /dev/sda2
 
