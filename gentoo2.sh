@@ -13,13 +13,13 @@ eselect profile set $setprofile
 
 emerge -qavuDN @world
 emerge cpuid2cpuflags
-cpuid2cpuflags >> /etc/portage/make.conf
+echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
 
 echo "Europe/Samara" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
-sed -i 's/CONSOLEFONT="#en_US.UTF-8 UTF-8"/CONSOLEFONT="en_US.UTF-8 UTF-8"/' /etc/locale.gen
-sed -i 's/CONSOLEFONT="#ru_RU.UTF-8 UTF-8"/CONSOLEFONT="ru_RU.UTF-8 UTF-8"/' /etc/locale.gen
+echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
+echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
 locale-gen
 eselect locale list
 read -p "Enter number your choice locale: " setlocale
@@ -32,12 +32,15 @@ export PS1="(chroot) $PS1"
 emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
 rc-update add dhcpcd default
 echo '/dev/sda1         /boot       ext4        defaults                0 2' > /etc/fstab
+eselect kernel list
+read -p "Enter number of kernel: " setkernel
+eselect kernel set $setkernel
 genkernel all
 echo '/dev/sda2         none        swap        sw                      0 0' >> /etc/fstab
 echo '/dev/sda3         /           btrfs       noatime                 0 1' >> /etc/fstab
 
 read -p "Enter name your PC: " sethostname
-echo hostname="$sethostname" /etc/conf.d/hostname
+echo hostname="$sethostname" > /etc/conf.d/hostname
 
 read -p "Enter username: " username
 useradd -m -G wheel,audio,video $username
