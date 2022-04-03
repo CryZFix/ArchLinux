@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo ACCEPT_LICENSE="*" >> /etc/portage/make.conf
+echo 'ACCEPT_LICENSE="*"' >> /etc/portage/make.conf
 
 source /etc/profile
 export PS1="(chroot) $PS1"
