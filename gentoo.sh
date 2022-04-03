@@ -48,7 +48,7 @@ links 'https://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/curre
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 read -p "Enter the number of threads on your processor (not cores, just threads): " cputhreads
-echo MAKEOPTS='"-j$cputhreads"' >> /mnt/gentoo/etc/portage/make.conf
+echo MAKEOPTS='"-j'$cputhreads'"' >> /mnt/gentoo/etc/portage/make.conf
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 
