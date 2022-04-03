@@ -18,7 +18,7 @@ echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/
 echo "Europe/Samara" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
-echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
 locale-gen
 eselect locale list
