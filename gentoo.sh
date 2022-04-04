@@ -63,7 +63,7 @@ echo 'Creating partitions'
 echo 'Formatting disks'
 mkfs.vfat -F 32 /dev/sda1 -L boot
 mkswap /dev/sda2 -L swap
-mkfs.ext4 /dev/sda3 -L rootfi
+mkfs.ext4 /dev/sda3 -L root
 fi
 
 echo 'Mounting disks'
