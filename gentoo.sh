@@ -28,7 +28,7 @@ echo 'Creating partitions'
 echo 'Formatting disks'
 mkfs.ext2 /dev/sda1 -L boot
 mkswap /dev/sda2 -L swap
-mkfs.ext4 -f /dev/sda3 -L root
+mkfs.ext4 /dev/sda3 -L root
 
 echo 'Mounting disks'
 mount /dev/sda3 /mnt/gentoo
