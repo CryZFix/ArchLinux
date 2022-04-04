@@ -33,7 +33,12 @@ rc-update add dhcpcd default
 echo '/dev/sda1         /boot       ext2        defaults                0 2' > /etc/fstab
 eselect kernel list
 eselect kernel set 1
-genkernel all
+cd /usr/src/linux
+make menuconfig
+make -j9 bzImage
+make -j9 modules
+make install
+make INSTALL_MOD_STRIP=1 modules_install
 echo '/dev/sda2         none        swap        sw                      0 0' >> /etc/fstab
 echo '/dev/sda3         /           ext4        noatime                 0 1' >> /etc/fstab
 
