@@ -31,7 +31,7 @@ echo 'Formatting disks'
 mkfs.ext2 /dev/sda1 -L boot
 mkswap /dev/sda2 -L swap
 mkfs.ext4 /dev/sda3 -L root
-elif [[ $node_set == 0 ]]; then
+elif [[ $node_set == 2 ]]; then
 echo 'Creating partitions'
 (
   echo g;
