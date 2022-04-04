@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo 'Partition BIOS or UEFI'
+read -p "1 - BIOS, 2 - UEFI: " node_set
+if [[ $node_set == 1 ]]; then
 echo 'Creating partitions'
 (
   echo o;
@@ -24,11 +27,44 @@ echo 'Creating partitions'
 
   echo w;
 ) | fdisk /dev/sda
-
 echo 'Formatting disks'
 mkfs.ext2 /dev/sda1 -L boot
 mkswap /dev/sda2 -L swap
 mkfs.ext4 /dev/sda3 -L root
+elif [[ $node_set == 0 ]]; then
+echo 'Creating partitions'
+(
+  echo g;
+
+  echo n;
+  echo;
+  echo;
+  echo +2048M;
+  echo t;
+  echo 1;
+
+  echo n;
+  echo;
+  echo;
+  echo +4096M;
+  echo t;
+  echo 2;
+  echo 19;
+
+  echo n;
+  echo;
+  echo;
+  echo;
+  echo;
+
+  echo w;
+) | fdisk /dev/sda
+
+echo 'Formatting disks'
+mkfs.vfat -F 32 /dev/sda1 -L boot
+mkswap /dev/sda2 -L swap
+mkfs.ext4 /dev/sda3 -L rootfi
+fi
 
 echo 'Mounting disks'
 mount /dev/sda3 /mnt/gentoo
