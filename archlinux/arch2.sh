@@ -55,19 +55,16 @@ pacman -Syy
 echo 'Ставим иксы и драйвера'
 pacman -S wget tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
 
-echo "Ставим XFCE"
-pacman -S xfce4 xfce4-goodies --noconfirm
-
 echo 'Cтавим DM'
 pacman -S sddm --noconfirm
 systemctl enable sddm
 echo 'Numlock=on' > /etc/sddm.conf
 
 echo 'Ставим шрифты'
-pacman -S ttf-liberation ttf-dejavu --noconfirm 
+pacman -S ttf-liberation ttf-dejavu ttf-symbola ttf-clear-sans --noconfirm 
 
 echo 'Ставим сеть'
-pacman -S networkmanager networkmanager-openvpn networkmanager-vpnc networkmanager-openconnect networkmanager-pptp network-manager-applet ppp openssh --noconfirm
+pacman -S networkmanager ppp openssh --noconfirm
 
 echo 'Подключаем автозагрузку менеджера входа и интернет'
 systemctl enable NetworkManager
@@ -76,33 +73,34 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
 echo 'Качаем и устанавливаем настройки Xfce'
   # tar -czf config.tar.gz .config для архивации настроек
-pacman -S arc-gtk-theme --noconfirm
 mkdir downloads
 cd downloads
 wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/bashrc
 rm /home/$username/.bashrc
 sudo mv -f bashrc /home/$username/.bashrc
 wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
-sudo rm -rf /home/$username/.config/xfce4*
+sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
-wget  https://git.io/alfipi.sh 
-mv -f alfipi.sh /home/$username/alfipi.sh
 
-echo 'Делаем авто вход без DE?'
-read -p "1 - Да, 0 - Нет: " node_set
-if [[ $node_set == 1 ]]; then
-sudo systemctl disable sddm
-sudo pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
-wget https://raw.githubusercontent.com/ordanax/arch/master/attach/.xinitrc
-sudo mv -f .xinitrc /home/$username/.xinitrc
-sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
-sudo mkdir /etc/systemd/system/getty@tty1.service.d/
-sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
-elif [[ $node_set == 0 ]]; then
-  echo 'Пропускаем.'
-fi
+echo 'env user'
+su $username
 
+mkdir -p files
+cd files
+echo 'Установка AUR (yay)'
+sudo pacman-key --init
+sudo pacman-key --populate
+sudo pacman -Syyu wget git curl --needed base base-devel --noconfirm
+wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz'
+tar xzfv yay*
+cd yay
+makepkg -fsri --noconfirm
+cd ..
+
+yay -Syyu i3-gaps polybar rofi pywal calc networkmanager-dmenu zramswap --noconfirm
+sudo systemctl enable zramswap.service
+
+exit
 rm -rf downloads
 
 echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
