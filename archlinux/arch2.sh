@@ -83,7 +83,7 @@ sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
 
 echo 'env user'
-su $username
+su - $username
 
 mkdir -p files
 cd files
