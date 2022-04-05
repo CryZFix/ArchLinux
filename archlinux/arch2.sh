@@ -53,7 +53,7 @@ echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 echo 'Ставим иксы и драйвера'
-pacman -S wget tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
+pacman -S wget i3-gaps dmenu tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
 
 echo 'Cтавим DM'
 pacman -S sddm --noconfirm
@@ -83,10 +83,8 @@ sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
 cd /home/$username/
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
-echo "sudo ls" >> /home/$username/.bash_profile
-echo "sh arch3.sh" >> /home/$username/.bash_profile
-su - $username
 
+cd
 rm -rf downloads
 
 echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
