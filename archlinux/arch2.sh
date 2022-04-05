@@ -81,26 +81,11 @@ sudo mv -f bashrc /home/$username/.bashrc
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar.gz
 sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
+cd /home/$username/
+curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
 
-echo 'env user'
-su - $username
+su - $username sudo sh arch3.sh
 
-mkdir -p files
-cd files
-echo 'Установка AUR (yay)'
-sudo pacman-key --init
-sudo pacman-key --populate
-sudo pacman -Syyu wget git curl --needed base base-devel --noconfirm
-wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz'
-tar xzfv yay*
-cd yay
-makepkg -fsri --noconfirm
-cd ..
-
-yay -Syyu i3-gaps polybar rofi pywal calc networkmanager-dmenu zramswap --noconfirm
-sudo systemctl enable zramswap.service
-
-exit
 rm -rf downloads
 
 echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
