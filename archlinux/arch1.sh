@@ -55,10 +55,5 @@ pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl ttf-libera
 echo '3.3 Настройка системы'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-echo 'С грфикой?'
-read -p "1 - Да, 0 - Нет: " node_set
-if [[ $node_set == 1 ]]; then
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/ArchLinux/main/arch2.sh)"
-elif [[ $node_set == 0 ]]; then
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/ArchLinux/main/arch2-2.sh)"
-fi
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch2.sh)"
+

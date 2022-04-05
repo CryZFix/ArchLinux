@@ -75,10 +75,10 @@ echo 'Качаем и устанавливаем настройки Xfce'
   # tar -czf config.tar.gz .config для архивации настроек
 mkdir downloads
 cd downloads
-wget https://raw.githubusercontent.com/CryZFix/ArchLinux_FastInstall_Private/main/attach/bashrc
+wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/bashrc
 rm /home/$username/.bashrc
 sudo mv -f bashrc /home/$username/.bashrc
-wget https://github.com/cryzfix/ArchLinux_FastInstall_Private/raw/main/attach/config.tar.gz
+wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar.gz
 sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
 
