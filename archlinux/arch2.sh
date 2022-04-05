@@ -83,8 +83,9 @@ sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
 cd /home/$username/
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
-
-su - $username sudo sh arch3.sh
+echo "sudo ls" >> /home/$username/.bash_profile
+echo "sh arch3.sh" >> /home/$username/.bash_profile
+su - $username
 
 rm -rf downloads
 
