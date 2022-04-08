@@ -53,7 +53,7 @@ echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 echo 'Ставим иксы и драйвера'
-pacman -S wget i3-gaps dmenu tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
+pacman -S wget i3-gaps xterm dmenu tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
 
 echo 'Cтавим DM'
 pacman -S sddm --noconfirm
