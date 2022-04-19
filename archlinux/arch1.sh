@@ -1,12 +1,21 @@
 #!/bin/bash
 
+##############################################
+ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant'
+##############################################
+DRIVERS='xorg-server xorg-drivers xorg-xinit'
+##############################################
+APPS='i3-gaps sddm grub xterm rofi dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl'
+##############################################
+FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu ttf-symbola ttf-clear-sans'
+
 loadkeys ru
 setfont cyr-sun16
 
-echo '2.3 Синхронизация системных часов'
+echo 'Синхронизация системных часов'
 timedatectl set-ntp true
 
-echo '2.4 создание разделов'
+echo 'Создание разделов'
 (
   echo o;
 
@@ -14,7 +23,7 @@ echo '2.4 создание разделов'
   echo;
   echo;
   echo;
-  echo +500M;
+  echo +700M;
 
   echo n;
   echo;
@@ -31,29 +40,20 @@ echo '2.4 создание разделов'
   echo w;
 ) | fdisk /dev/sda
 
-echo 'Ваша разметка диска'
-fdisk -l
-
-echo '2.4.2 Форматирование дисков'
+echo 'Форматирование дисков'
 mkfs.ext2  /dev/sda1 -L boot
 mkfs.ext4  /dev/sda3 -L root
 mkswap /dev/sda2 -L swap
 
-echo '2.4.3 Монтирование дисков'
+echo 'Монтирование дисков'
 mount /dev/sda3 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
-echo '3.1 Выбор зеркал для загрузки. Ставим зеркало от Яндекс'
-echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-echo "Server = https://mirror.rol.ru/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
-
-echo '3.2 Установка основных пакетов'
-pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl ttf-liberation ttf-dejavu wget tar bash-completion openssh dialog wpa_supplicant
+pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS
 
 echo '3.3 Настройка системы'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch2.sh)"
-
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch2.sh)"
