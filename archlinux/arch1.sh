@@ -7,7 +7,7 @@ DRIVERS='xorg-server xorg-drivers xorg-xinit'
 ##############################################
 APPS='i3-gaps sddm grub xterm rofi dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl'
 ##############################################
-FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu ttf-symbola ttf-clear-sans'
+FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 
 loadkeys ru
 setfont cyr-sun16
