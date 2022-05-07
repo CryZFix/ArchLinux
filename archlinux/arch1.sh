@@ -3,7 +3,7 @@
 ##############################################
 ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant'
 ##############################################
-DRIVERS='xorg-server'
+DRIVERS='xorg-server xorg-xinit'
 ##############################################
 APPS='i3-gaps grub xterm dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
 ##############################################
@@ -48,9 +48,21 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
+# Necessary helper for sorting mirrors
+curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4' | sed 's/^#Server/Server/g' > /etc/pacman.d/mirrorlist
+pacman -Sy
+pacman -S --noconfirm pacman-contrib
+
+update_mirrorlist(){
+  curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4&use_mirror_status=on' | sed 's/^#Server/Server/g' | rankmirrors - > /etc/pacman.d/mirrorlist
+}
+update_mirrorlist
+pacman -Syy
+
+# Install the base packages
 pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS
 
-echo '3.3 Настройка системы'
+# Generate fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch2.sh)"
