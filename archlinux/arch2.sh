@@ -97,8 +97,8 @@ rm /home/$username/.bashrc
 sudo mv -f .bashrc /home/$username/.bashrc
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
-sudo tar -xvf config.tar -C /home/$username/
 cd /home/$username/
+sudo tar -xvf config.tar
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
 sudo -u $username sh /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
