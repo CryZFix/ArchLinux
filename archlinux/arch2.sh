@@ -28,7 +28,39 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Config sudo
 # allow users of group wheel to use sudo
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL$/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-echo "$username ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL$/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+chmod 777 /home/$username/arch3.sh
+
+# Uncomment multilib repo
+echo '[multilib]' >> /etc/pacman.conf
+echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+pacman -Syy
+
+# graphics driver
+nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
+amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
+intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
+if [[ -n "$nvidia" ]]; then
+  pacman -S --noconfirm nvidia
+fi
+
+if [[ -n "$amd" ]]; then
+  pacman -S --noconfirm xf86-video-amdgpu
+fi
+
+if [[ -n "$intel" ]]; then
+  pacman -S --noconfirm xf86-video-intel
+fi
+
+if [[ -n "$nvidia" && -n "$intel" ]]; then
+  pacman -S --noconfirm bumblebee
+  gpasswd -a $username bumblebee
+  systemctl enable bumblebeed
+fi
+
+# Enabe NM and sshd service
+systemctl enable NetworkManager
+systemctl enable sshd
 
 # Uncomment multilib repo
 echo '[multilib]' >> /etc/pacman.conf
@@ -77,7 +109,7 @@ sudo -c sh /home/$username/arch3.sh -s /bin/sh $username
 
 cd
 rm -rf downloads
-sed -i '$d' /etc/sudoers
+sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 
 # Adding autologin without DE
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
