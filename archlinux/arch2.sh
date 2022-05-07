@@ -32,8 +32,8 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL$/%wheel ALL=(ALL:ALL) NOPASSWD: 
 chmod 777 /home/$username/arch3.sh
 
 # Uncomment multilib repo
-echo '[multilib]' >> /etc/pacman.conf
-echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+sed -i 's/^#[multilib]$/[multilib]/' /etc/pacman.conf
+sed -i 's/^#Include = /etc/pacman.d/mirrorlist$/Include = /etc/pacman.d/mirrorlist/' /etc/pacman.conf
 pacman -Syy
 
 # graphics driver
@@ -61,11 +61,6 @@ fi
 # Enabe NM and sshd service
 systemctl enable NetworkManager
 systemctl enable sshd
-
-# Uncomment multilib repo
-echo '[multilib]' >> /etc/pacman.conf
-echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-pacman -Syy
 
 # graphics driver
 nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
