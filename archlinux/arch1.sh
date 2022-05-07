@@ -5,7 +5,7 @@ ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialo
 ##############################################
 DRIVERS='xorg-server xorg-xinit'
 ##############################################
-APPS='i3-gaps grub xterm dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
+APPS='i3-gaps grub rofi alacritty dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 
