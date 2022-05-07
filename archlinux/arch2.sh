@@ -27,7 +27,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Config sudo
 # allow users of group wheel to use sudo
-sed -i 's/^# %wheel ALL=(ALL) ALL$/%wheel ALL=(ALL) ALL/' /etc/sudoers
+sed -i 's/^# %wheel ALL=(ALL:ALL) ALL$/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Uncomment multilib repo
 echo '[multilib]' >> /etc/pacman.conf
