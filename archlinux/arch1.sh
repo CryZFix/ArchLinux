@@ -5,14 +5,14 @@ ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialo
 ##############################################
 DRIVERS='xorg-server xorg-xinit'
 ##############################################
-APPS='i3-gaps grub rofi alacritty dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
+APPS='i3-gaps grub rofi alacritty tmux picom nitrogen dmenu telegram-desktop pulseaudio pavucontrol wget tar bash-completion \ 
+	networkmanager ppp git curl tree vim ranger'
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 
-echo 'Синхронизация системных часов'
 timedatectl set-ntp true
 
-echo 'Создание разделов'
+echo 'Parts'
 (
   echo o;
 
@@ -37,12 +37,12 @@ echo 'Создание разделов'
   echo w;
 ) | fdisk /dev/sda
 
-echo 'Форматирование дисков'
+# Formating
 mkfs.ext2  /dev/sda1 -L boot
 mkfs.ext4  /dev/sda3 -L root
 mkswap /dev/sda2 -L swap
 
-echo 'Монтирование дисков'
+# Mounting
 mount /dev/sda3 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
@@ -56,6 +56,7 @@ pacman -S --noconfirm pacman-contrib
 update_mirrorlist(){
   curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4&use_mirror_status=on' | sed 's/^#Server/Server/g' | rankmirrors - > /etc/pacman.d/mirrorlist
 }
+sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 update_mirrorlist
 pacman -Syy
 
