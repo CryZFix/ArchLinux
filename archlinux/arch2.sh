@@ -72,7 +72,7 @@ sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
 cd /home/$username/
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch3.sh
-sudo -u $username sh /home/$username/arch3.sh
+sudo -c sh /home/$username/arch3.sh -s /bin/sh $username
 
 cd
 rm -rf downloads
