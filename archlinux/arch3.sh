@@ -1,5 +1,7 @@
 #!/bin/bash
+username=junker
 
+cd /home/$username
 mkdir -p files
 cd files
 echo 'Установка AUR (yay)'
@@ -15,7 +17,5 @@ cd ..
 rm -rf files
 echo "[[ -f ~/.bashrc ]] && . ~/.bashrc" > /home/$username/.bash_profile
 
-yay -Syyu i3-gaps polybar rofi pywal calc networkmanager-dmenu zramswap --noconfirm
-sudo systemctl enable zramswap.service
+yay -Syyu i3-gaps polybar picom nitrogen pywal calc networkmanager-dmenu zramswap --noconfirm
 
-exit

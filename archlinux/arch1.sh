@@ -1,12 +1,18 @@
 #!/bin/bash
 
-loadkeys ru
-setfont cyr-sun16
+##############################################
+ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant'
+##############################################
+DRIVERS='xorg-server xorg-xinit'
+##############################################
+APPS='i3-gaps grub xterm dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
+##############################################
+FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 
-echo '2.3 Синхронизация системных часов'
+echo 'Синхронизация системных часов'
 timedatectl set-ntp true
 
-echo '2.4 создание разделов'
+echo 'Создание разделов'
 (
   echo o;
 
@@ -14,7 +20,7 @@ echo '2.4 создание разделов'
   echo;
   echo;
   echo;
-  echo +500M;
+  echo +700M;
 
   echo n;
   echo;
@@ -31,29 +37,32 @@ echo '2.4 создание разделов'
   echo w;
 ) | fdisk /dev/sda
 
-echo 'Ваша разметка диска'
-fdisk -l
-
-echo '2.4.2 Форматирование дисков'
+echo 'Форматирование дисков'
 mkfs.ext2  /dev/sda1 -L boot
 mkfs.ext4  /dev/sda3 -L root
 mkswap /dev/sda2 -L swap
 
-echo '2.4.3 Монтирование дисков'
+echo 'Монтирование дисков'
 mount /dev/sda3 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
-echo '3.1 Выбор зеркал для загрузки. Ставим зеркало от Яндекс'
-echo "Server = http://mirror.yandex.ru/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
-echo "Server = https://mirror.rol.ru/archlinux/\$repo/os/\$arch" >> /etc/pacman.d/mirrorlist
+# Necessary helper for sorting mirrors
+curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4' | sed 's/^#Server/Server/g' > /etc/pacman.d/mirrorlist
+pacman -Sy
+pacman -S --noconfirm pacman-contrib
 
-echo '3.2 Установка основных пакетов'
-pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl ttf-liberation ttf-dejavu wget tar bash-completion openssh dialog wpa_supplicant
+update_mirrorlist(){
+  curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4&use_mirror_status=on' | sed 's/^#Server/Server/g' | rankmirrors - > /etc/pacman.d/mirrorlist
+}
+update_mirrorlist
+pacman -Syy
 
-echo '3.3 Настройка системы'
+# Install the base packages
+pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS
+
+# Generate fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch2.sh)"
-
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch2.sh)"

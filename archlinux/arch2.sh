@@ -1,91 +1,119 @@
 #!/bin/bash
-echo 'Прописываем имя компьютера'
-read -p "Введите имя компьютера: " hostname
-read -p "Введите имя пользователя: " username
+hostname=reichstag
+username=junker
+password=123456
+
+# Hostname
 echo $hostname > /etc/hostname
+
+# Timezone
+rm -f /etc/localtime
 ln -svf /usr/share/zoneinfo/Europe/Samara /etc/localtime
 
-echo 'Добавляем пользователя'
+# Create regular user
 useradd -m -g users -G wheel -s /bin/bash $username
+echo "$username:$password" | chpasswd
 
-echo 'Создаем root пароль'
-passwd
-
-echo 'Устанавливаем пароль пользователя'
-passwd $username
-
-echo '3.4 Добавляем русскую локаль системы'
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
-
-echo 'Обновим текущую локаль системы'
+# Locale
+sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-echo 'Указываем язык системы'
-echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
-
-echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
-echo 'KEYMAP=ru' >> /etc/vconsole.conf
-echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
-
+# Create RAM loader
 echo 'Создадим загрузочный RAM диск'
 mkinitcpio -p linux
-
-echo '3.5 Устанавливаем загрузчик'
-pacman-key --init
-pacman-key --populate
-pacman -Syy
-pacman -S grub --noconfirm 
 grub-install /dev/sda
-
-echo 'Обновляем grub.cfg'
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo 'Ставим программу для Wi-fi'
-pacman -S dialog wpa_supplicant netctl --noconfirm 
+# Config sudo
+# allow users of group wheel to use sudo
+sed -i 's/^# %wheel ALL=(ALL:ALL) ALL$/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL$/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+chmod 777 /home/$username/arch3.sh
 
-echo 'Устанавливаем SUDO'
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
-
-echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
-echo '[multilib]' >> /etc/pacman.conf
-echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+# Uncomment multilib repo
+sed -i 's/^#[multilib]$/[multilib]/' /etc/pacman.conf
+sed -i 's/^#Include = /etc/pacman.d/mirrorlist$/Include = /etc/pacman.d/mirrorlist/' /etc/pacman.conf
 pacman -Syy
 
-echo 'Ставим иксы и драйвера'
-pacman -S wget i3-gaps xterm dmenu tar xorg-server xorg-drivers xorg-xinit pulseaudio pavucontrol bash-completion --noconfirm
+# graphics driver
+nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
+amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
+intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
+if [[ -n "$nvidia" ]]; then
+  pacman -S --noconfirm nvidia
+fi
 
-echo 'Cтавим DM'
-pacman -S sddm --noconfirm
-systemctl enable sddm
-echo 'Numlock=on' > /etc/sddm.conf
+if [[ -n "$amd" ]]; then
+  pacman -S --noconfirm xf86-video-amdgpu
+fi
 
-echo 'Ставим шрифты'
-pacman -S ttf-liberation ttf-dejavu ttf-symbola ttf-clear-sans --noconfirm 
+if [[ -n "$intel" ]]; then
+  pacman -S --noconfirm xf86-video-intel
+fi
 
-echo 'Ставим сеть'
-pacman -S networkmanager ppp openssh --noconfirm
+if [[ -n "$nvidia" && -n "$intel" ]]; then
+  pacman -S --noconfirm bumblebee
+  gpasswd -a $username bumblebee
+  systemctl enable bumblebeed
+fi
 
-echo 'Подключаем автозагрузку менеджера входа и интернет'
+# Enabe NM and sshd service
 systemctl enable NetworkManager
 systemctl enable sshd
-echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
-echo 'Качаем и устанавливаем настройки Xfce'
-  # tar -czf config.tar.gz .config для архивации настроек
+# graphics driver
+nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
+amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
+intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
+if [[ -n "$nvidia" ]]; then
+  pacman -S --noconfirm nvidia
+fi
+
+if [[ -n "$amd" ]]; then
+  pacman -S --noconfirm xf86-video-amdgpu
+fi
+
+if [[ -n "$intel" ]]; then
+  pacman -S --noconfirm xf86-video-intel
+fi
+
+if [[ -n "$nvidia" && -n "$intel" ]]; then
+  pacman -S --noconfirm bumblebee
+  gpasswd -a $username bumblebee
+  systemctl enable bumblebeed
+fi
+
+# Enabe NM and sshd service
+systemctl enable NetworkManager
+systemctl enable sshd
+
+# Downloading config for i3, polybar, etc
+ # tar -czf config.tar.gz .config
 mkdir downloads
 cd downloads
-wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/bashrc
+wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.bashrc
 rm /home/$username/.bashrc
-sudo mv -f bashrc /home/$username/.bashrc
-wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar.gz
+sudo mv -f .bashrc /home/$username/.bashrc
+wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
-sudo tar -xzf config.tar.gz -C /home/$username/
+sudo tar -xvf config.tar -C /home/$username/
 cd /home/$username/
-curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
+curl -OL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch3.sh
+sudo -u $username sh /home/$username/arch3.sh
+sudo systemctl enable zramswap.service
 
 cd
 rm -rf downloads
+sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 
-echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
+# Adding autologin without DE
+cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
+wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
+sudo mv -f .xinitrc /home/$username/.xinitrc
+sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
+sudo mkdir /etc/systemd/system/getty@tty1.service.d/
+sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
+
+echo 'Install is complete, types: reboot.'
 exit
