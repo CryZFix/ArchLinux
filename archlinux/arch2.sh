@@ -106,6 +106,7 @@ sudo tar -xzf config.tar.gz -C /home/$username/
 cd /home/$username/
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch3.sh
 sudo -u $username sh /home/$username/arch3.sh
+sudo systemctl enable zramswap.service
 
 cd
 rm -rf downloads
