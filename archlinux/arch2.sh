@@ -100,7 +100,7 @@ cd downloads
 wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.bashrc
 rm /home/$username/.bashrc
 sudo mv -f .bashrc /home/$username/.bashrc
-wget https://github.com/CryZFix/Linux/raw/test/archlinux/attach/config.tar.gz
+wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xzf config.tar.gz -C /home/$username/
 cd /home/$username/
