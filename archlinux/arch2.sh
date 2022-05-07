@@ -33,6 +33,7 @@ chmod 777 /home/$username/arch3.sh
 
 # Uncomment multilib repo
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 pacman -Syy
 
 # graphics driver
