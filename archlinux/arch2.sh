@@ -95,10 +95,7 @@ cd downloads
 wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.bashrc
 rm /home/$username/.bashrc
 sudo mv -f .bashrc /home/$username/.bashrc
-wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
-sudo rm -rf /home/$username/.config/*
 cd /home/$username/
-sudo tar -xvf config.tar
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
 sudo -u $username sh /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
@@ -114,6 +111,10 @@ sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
+
+wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
+sudo rm -rf /home/$username/.config/*
+sudo tar -xvf config.tar -C /home/$username
 
 echo 'Install is complete, types: reboot.'
 exit
