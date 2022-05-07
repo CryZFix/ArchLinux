@@ -15,7 +15,7 @@ cd ..
 rm -rf files
 echo "[[ -f ~/.bashrc ]] && . ~/.bashrc" > /home/$username/.bash_profile
 
-yay -Syyu i3-gaps polybar rofi pywal calc networkmanager-dmenu zramswap --noconfirm
+yay -Syyu i3-gaps polybar pywal calc networkmanager-dmenu zramswap --noconfirm
 sudo systemctl enable zramswap.service
 
 exit
