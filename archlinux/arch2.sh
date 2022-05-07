@@ -89,10 +89,13 @@ systemctl enable sshd
 
 # Downloading config for i3, polybar, etc
  # tar -czf config.tar.gz .config
-cd /home/$username/
+mkdir downloads
+cd downloads
 wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.bashrc
 wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.picom.conf
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
+rm /home/$username/.bashrc
+sudo mv -f * /home/$username
 sudo -u $username sh /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -100,6 +103,7 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: 
 # Adding autologin without DE
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
 wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.xinitrc
+sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
@@ -107,6 +111,7 @@ sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xvf config.tar -C /home/$username
+rm -rf downloads
 
 echo 'Install is complete, types: reboot.'
 exit
