@@ -1,55 +1,67 @@
 #!/bin/bash
-echo 'Прописываем имя компьютера'
-read -p "Введите имя компьютера: " hostname
-read -p "Введите имя пользователя: " username
+hostname=reichstag
+username=junker
+password=123456
+
+# Hostname
 echo $hostname > /etc/hostname
+
+# Timezone
+rm -f /etc/localtime
 ln -svf /usr/share/zoneinfo/Europe/Samara /etc/localtime
 
-echo 'Добавляем пользователя'
+# Create regular user
 useradd -m -g users -G wheel -s /bin/bash $username
+echo "$username:$password" | chpasswd
 
-echo 'Создаем root пароль'
-passwd
-
-echo 'Устанавливаем пароль пользователя'
-passwd $username
-
-echo 'Добавляем русскую локаль системы'
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
-
-echo 'Обновим текущую локаль системы'
+# Locale
+sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-echo 'Указываем язык системы'
-echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
-
-echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
-echo 'KEYMAP=ru' >> /etc/vconsole.conf
-echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
-
+# Create RAM loader
 echo 'Создадим загрузочный RAM диск'
 mkinitcpio -p linux
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo 'Устанавливаем SUDO'
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
+# Config sudo
+# allow users of group wheel to use sudo
+sed -i 's/^# %wheel ALL=(ALL) ALL$/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
+# Uncomment multilib repo
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
-systemctl enable sddm
-echo 'Numlock=on' > /etc/sddm.conf
+# graphics driver
+nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
+amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
+intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
+if [[ -n "$nvidia" ]]; then
+  pacman -S --noconfirm nvidia
+fi
 
-echo 'Подключаем автозагрузку менеджера входа и интернет'
+if [[ -n "$amd" ]]; then
+  pacman -S --noconfirm xf86-video-amdgpu
+fi
+
+if [[ -n "$intel" ]]; then
+  pacman -S --noconfirm xf86-video-intel
+fi
+
+if [[ -n "$nvidia" && -n "$intel" ]]; then
+  pacman -S --noconfirm bumblebee
+  gpasswd -a $username bumblebee
+  systemctl enable bumblebeed
+fi
+
+# Enabe NM and sshd service
 systemctl enable NetworkManager
 systemctl enable sshd
 
-echo 'Качаем и устанавливаем настройки'
-  # tar -czf config.tar.gz .config для архивации настроек
+# Downloading config for i3, polybar, etc
+ # tar -czf config.tar.gz .config
 mkdir downloads
 cd downloads
 wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/bashrc
@@ -64,5 +76,5 @@ curl -OL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch3.sh
 cd
 rm -rf downloads
 
-echo 'Установка системы завершена! Перезагрузитесь вводом: reboot.'
+echo 'Install is complete, types: reboot.'
 exit

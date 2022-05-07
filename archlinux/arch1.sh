@@ -3,14 +3,11 @@
 ##############################################
 ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant'
 ##############################################
-DRIVERS='xorg-server xorg-drivers xorg-xinit'
+DRIVERS='xorg-server'
 ##############################################
-APPS='i3-gaps sddm grub xterm rofi dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl'
+APPS='i3-gaps grub xterm dmenu pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
-
-loadkeys ru
-setfont cyr-sun16
 
 echo 'Синхронизация системных часов'
 timedatectl set-ntp true
