@@ -28,6 +28,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Config sudo
 # allow users of group wheel to use sudo
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL$/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+echo "$username ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Uncomment multilib repo
 echo '[multilib]' >> /etc/pacman.conf
@@ -76,6 +77,7 @@ sudo -c sh /home/$username/arch3.sh -s /bin/sh $username
 
 cd
 rm -rf downloads
+sed -i '$d' /etc/sudoers
 
 # Adding autologin without DE
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
