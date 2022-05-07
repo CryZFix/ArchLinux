@@ -5,4 +5,4 @@ if [ -f $HOME/.Xresources ]; then
     xrdb -merge $HOME/.Xresources
 fi
 
-session=${1:-i3}
+exec i3

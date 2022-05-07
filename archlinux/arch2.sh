@@ -80,7 +80,7 @@ rm -rf downloads
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
 wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
 sudo mv -f .xinitrc /home/$username/.xinitrc
-sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
+sudo echo -e '[Service]\nExecStart=-/usr/bin/agetty --autologin' $username '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
 
