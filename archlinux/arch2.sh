@@ -32,8 +32,7 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL$/%wheel ALL=(ALL:ALL) NOPASSWD: 
 chmod 777 /home/$username/arch3.sh
 
 # Uncomment multilib repo
-sed -i 's/^#[multilib]$/[multilib]/' /etc/pacman.conf
-sed -i 's/^#Include = /etc/pacman.d/mirrorlist$/Include = /etc/pacman.d/mirrorlist/' /etc/pacman.conf
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Syy
 
 # graphics driver
