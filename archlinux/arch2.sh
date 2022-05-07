@@ -92,14 +92,14 @@ systemctl enable sshd
  # tar -czf config.tar.gz .config
 mkdir downloads
 cd downloads
-wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.bashrc
+wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.bashrc
 rm /home/$username/.bashrc
 sudo mv -f .bashrc /home/$username/.bashrc
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xvf config.tar -C /home/$username/
 cd /home/$username/
-curl -OL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch3.sh
+curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
 sudo -u $username sh /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
 
@@ -109,7 +109,7 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: 
 
 # Adding autologin without DE
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
-wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
+wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.xinitrc
 sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/

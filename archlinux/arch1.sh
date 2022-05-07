@@ -65,4 +65,4 @@ pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS
 # Generate fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/arch2.sh)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch2.sh)"
