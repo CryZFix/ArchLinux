@@ -5,9 +5,11 @@ ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialo
 ##############################################
 DRIVERS='xorg-server xorg-xinit'
 ##############################################
-APPS='i3-gaps grub rofi alacritty tmux picom nitrogen dmenu telegram-desktop pulseaudio pavucontrol wget tar bash-completion networkmanager ppp git curl tree vim ranger'
+APPS='i3-gaps grub rofi alacritty dmenu pulseaudio pavucontrol wget tar networkmanager ppp git curl tree vim ranger'
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
+##############################################
+OPTS='bash-completion telegram-desktop tmux picom nitrogen ffmpegthumbnailer ueberzug'
 
 timedatectl set-ntp true
 
@@ -19,7 +21,7 @@ echo 'Parts'
   echo;
   echo;
   echo;
-  echo +700M;
+  echo +800M;
 
   echo n;
   echo;
@@ -60,7 +62,7 @@ update_mirrorlist
 pacman -Syy
 
 # Install the base packages
-pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS
+pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS $OPTS
 
 # Generate fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
