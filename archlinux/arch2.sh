@@ -84,7 +84,7 @@ sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '-p -f -- \\u' --noclear --autologin" "$username" '- $TERM' > autologin.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
-echo -e  "# ~/.bash_profile\n\n[[ -f ~/.bashrc ]] && . ~/.bashrc\npgrep i3 || startx '$HOME/.xinitrc'" > /home/$username/.bash_profile
+echo -e  "# ~/.bash_profile\n\n[[ -f ~/.bashrc ]] && . ~/.bashrc\npgrep i3 || startx '/home/$username/.xinitrc'" > /home/$username/.bash_profile
 
 cd ..
 rm -rf downloads
