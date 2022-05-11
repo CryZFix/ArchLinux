@@ -78,6 +78,13 @@ wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xvf config.tar -C /home/$username
 
+# Adding autologin without DE
+wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
+sudo mv -f .xinitrc /home/$username/.xinitrc
+sudo echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '-p -f -- \\u' --noclear --autologin" "$username" '- $TERM' > autologin.conf
+sudo mkdir /etc/systemd/system/getty@tty1.service.d/
+sudo mv -f autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
+
 cd ..
 rm -rf downloads
 echo 'Install is complete, types: reboot.'
