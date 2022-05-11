@@ -79,8 +79,8 @@ sudo rm -rf /home/$username/.config/*
 sudo tar -xvf config.tar -C /home/$username
 
 # Adding autologin without DE
-cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
 wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
+echo '[[ -z $DISPLAY && $XDG_VTNR -eq NomerVirtConsole ]] && exec startx' >> ~/home/$username/.bash_profile
 sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
