@@ -1,7 +1,7 @@
 #!/bin/bash
 username=junker
 
-APPS='google-chrome polybar pywal calc networkmanager-dmenu zramswap'
+APPS='google-chrome polybar pywal calc networkmanager-dmenu zramswap vim-youcompleteme-git'
 
 cd /home/$username
 mkdir -p files
