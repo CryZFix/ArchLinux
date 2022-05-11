@@ -33,34 +33,8 @@ chmod 777 /home/$username/arch3.sh
 
 # Uncomment multilib repo
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
-sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
+sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 pacman -Syy
-
-# graphics driver
-nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
-amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
-intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
-if [[ -n "$nvidia" ]]; then
-  pacman -S --noconfirm nvidia
-fi
-
-if [[ -n "$amd" ]]; then
-  pacman -S --noconfirm xf86-video-amdgpu
-fi
-
-if [[ -n "$intel" ]]; then
-  pacman -S --noconfirm xf86-video-intel
-fi
-
-if [[ -n "$nvidia" && -n "$intel" ]]; then
-  pacman -S --noconfirm bumblebee
-  gpasswd -a $username bumblebee
-  systemctl enable bumblebeed
-fi
-
-# Enabe NM and sshd service
-systemctl enable NetworkManager
-systemctl enable sshd
 
 # graphics driver
 nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
@@ -100,19 +74,20 @@ sudo mv -f * /home/$username
 sudo -u $username sh /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
+sudo rm -rf /home/$username/.config/*
+sudo tar -xvf config.tar -C /home/$username
 
 # Adding autologin without DE
 cp /etc/X11/xinit/xserverrc /home/$username/.xserverrc
-wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.xinitrc
+wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
 sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
 
-wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
-sudo rm -rf /home/$username/.config/*
-sudo tar -xvf config.tar -C /home/$username
-rm -rf downloads
 
+cd ..
+rm -rf downloads
 echo 'Install is complete, types: reboot.'
 exit
