@@ -78,15 +78,6 @@ wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xvf config.tar -C /home/$username
 
-# Adding autologin without DE
-wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
-echo '[[ -z $DISPLAY && $XDG_VTNR -eq NomerVirtConsole ]] && exec startx' >> ~/home/$username/.bash_profile
-sudo mv -f .xinitrc /home/$username/.xinitrc
-sudo echo -e '[Service]\nExecStart=\nExecStart=-/usr/bin/agetty --autologin' "$username" '--noclear %I $TERM' > override.conf
-sudo mkdir /etc/systemd/system/getty@tty1.service.d/
-sudo mv -f override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
-
-
 cd ..
 rm -rf downloads
 echo 'Install is complete, types: reboot.'
