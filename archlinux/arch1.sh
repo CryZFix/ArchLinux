@@ -3,7 +3,7 @@
 ##############################################
 ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant'
 ##############################################
-DRIVERS='xorg-server xorg-xinit'
+DRIVERS='xorg-server xorg-xinit ntfs-3g gvfs os-prober'
 ##############################################
 APPS='i3-gaps grub rofi alacritty dmenu pulseaudio pavucontrol wget tar networkmanager ppp git curl tree vim ranger'
 ##############################################
@@ -22,6 +22,7 @@ echo 'Parts'
   echo;
   echo;
   echo +800M;
+  echo a;
 
   echo n;
   echo;
