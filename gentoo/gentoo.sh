@@ -12,6 +12,7 @@ echo 'Creating partitions'
   echo;
   echo;
   echo +2048M;
+  echo a;
 
   echo n;
   echo;
