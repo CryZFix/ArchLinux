@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##############################################
-ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant'
+ESSENTIAL='base base-devel linux linux-firmware nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
 ##############################################
 DRIVERS='xorg-server xorg-xinit ntfs-3g gvfs os-prober'
 ##############################################
@@ -9,7 +9,7 @@ APPS='i3-gaps grub rofi alacritty dmenu pulseaudio pavucontrol wget tar networkm
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 ##############################################
-OPTS='bash-completion telegram-desktop tmux picom nitrogen ffmpegthumbnailer ueberzug'
+OPTS='bash-completion telegram-desktop tmux picom nitrogen ffmpegthumbnailer ueberzug zsh-theme-powerlevel10k pkgfile'
 
 timedatectl set-ntp true
 
