@@ -64,6 +64,7 @@ systemctl enable sshd
 
 # Downloading config for i3, polybar, etc
  # tar -czf config.tar.gz .config
+chsh -s /bin/sh junker
 mkdir downloads
 cd downloads
 wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.bashrc
