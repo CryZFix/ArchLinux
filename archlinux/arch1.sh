@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##############################################
-ESSENTIAL='base base-devel linux-zen linux-zen-headers linux-firmware neovim nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
+ESSENTIAL='base base-devel cmake linux-zen linux-zen-headers linux-firmware neovim nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
 ##############################################
 DRIVERS='xorg-server xorg-xinit ntfs-3g gvfs os-prober'
 ##############################################
