@@ -21,7 +21,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 # Create RAM loader
 echo 'Создадим загрузочный RAM диск'
-mkinitcpio -p linux
+mkinitcpio -p linux-zen
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -67,8 +67,6 @@ systemctl enable sshd
 chsh -s /bin/zsh junker
 mkdir downloads
 cd downloads
-wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.bashrc
-wget https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/attach/dotfiles/.picom.conf
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch3.sh
 rm /home/$username/.bashrc
 sudo mv -f * /home/$username
@@ -78,16 +76,14 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: 
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xvf config.tar -C /home/$username
+sudo chown junker:user /home/$username/.*
 
 # Adding autologin without DE
-wget https://raw.githubusercontent.com/CryZFix/Linux/test/archlinux/attach/dotfiles/.xinitrc
-sudo mv -f .xinitrc /home/$username/.xinitrc
 sudo echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '-p -f -- \\u' --noclear --autologin" "$username" '- $TERM' > autologin.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
-echo -e  "# ~/.bash_profile\n\n[[ -f ~/.bashrc ]] && . ~/.bashrc\npgrep i3 || startx '/home/$username/.xinitrc'" > /home/$username/.bash_profile
 
 cd ..
 rm -rf downloads
-echo 'Install is complete, types: reboot.'
+echo 'Install is complete, rebooting...'
 exit

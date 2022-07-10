@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##############################################
-ESSENTIAL='base base-devel linux linux-firmware neovim nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
+ESSENTIAL='base base-devel linux-zen linux-zen-headers linux-firmware neovim nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
 ##############################################
 DRIVERS='xorg-server xorg-xinit ntfs-3g gvfs os-prober'
 ##############################################
@@ -69,3 +69,5 @@ pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS $OPTS
 genfstab -pU /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/Linux/main/archlinux/arch2.sh)"
+sleep 12
+reboot

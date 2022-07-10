@@ -1,7 +1,7 @@
 #!/bin/bash
 username=junker
 
-APPS='google-chrome polybar pywal calc networkmanager-dmenu zramswap vim-youcompleteme-git'
+APPS='google-chrome polybar pywal calc networkmanager-dmenu'
 
 cd /home/$username
 mkdir -p files
@@ -17,7 +17,5 @@ makepkg -fsri --noconfirm
 cd ..
 cd ..
 rm -rf files
-echo "[[ -f ~/.bashrc ]] && . ~/.bashrc" > /home/$username/.bash_profile
 
 yay -Syyu $APPS --noconfirm
-
