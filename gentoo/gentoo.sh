@@ -145,6 +145,7 @@ echo 'exec dwm &'
 
 EOF
 
+chmod a+x chrootstart.sh
 time chroot . ./chrootstart.sh
 rm chrootstart.sh
 
