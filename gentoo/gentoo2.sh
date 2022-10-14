@@ -28,7 +28,7 @@ sed -i 's/CONSOLEFONT="default8x16"/CONSOLEFONT="cyr-sun16"/' /etc/conf.d/consol
 env-update && source /etc/profile
 export PS1="(chroot) $PS1"
 
-emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
+emerge -q sys-kernel/gentoo-kernel-bin sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
 rc-update add dhcpcd default
 echo '/dev/sda1         /boot       ext2        defaults                0 2' > /etc/fstab
 eselect kernel list
@@ -62,13 +62,7 @@ passwd
 
 emerge -q sys-boot/grub:2
 
-echo 'Grub for BIOS or UEFI?'
-read -p "1 - BIOS, 2 - UEFI: " node_set
-if [[ $node_set == 1 ]]; then
 grub-install /dev/sda
-elif [[ $node_set == 2 ]]; then
-grub-install --target=x86_64-efi --efi-directory=/boot
-fi
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
