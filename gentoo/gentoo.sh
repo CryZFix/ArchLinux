@@ -51,6 +51,11 @@ echo download latest stage file $FILE
 wget $DISTBASE$FILE
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
+### Download and run make fstab script
+curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/gentoo/genfstab
+chmod +x genfstab
+./genfstab /mnt/gentoo > /mnt/gentoo/etc/fstab
+
 ### Add FLAGS 
 sed -i 's/COMMON_FLAGS="-O2 -pipe"/COMMON_FLAGS="-march=native -O2 -pipe"/' /mnt/gentoo/etc/portage/make.conf
 echo MAKEOPTS='"-j'$cputhreads'"' >> /mnt/gentoo/etc/portage/make.conf
