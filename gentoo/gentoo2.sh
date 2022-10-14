@@ -1,6 +1,4 @@
 #!/bin/bash
-hostname=reichstag
-username=junker
 
 echo 'ACCEPT_LICENSE="*"' >> /etc/portage/make.conf
 
@@ -8,11 +6,9 @@ source /etc/profile
 export PS1="(chroot) $PS1"
 
 emerge-webrsync
-
 emerge -qvuDN @world
 emerge cpuid2cpuflags
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
-echo 'INPUT_DEVICES="synaptics libinput"' >> /etc/portage/make.conf
 
 echo "Europe/Samara" > /etc/timezone
 emerge --config sys-libs/timezone-data
@@ -27,7 +23,7 @@ sed -i 's/CONSOLEFONT="default8x16"/CONSOLEFONT="cyr-sun16"/' /etc/conf.d/consol
 env-update && source /etc/profile
 export PS1="(chroot) $PS1"
 
-emerge -q sys-kernel/gentoo-kernel-bin sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
+emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
 rc-update add dhcpcd default
 
 ### graphics driver
@@ -48,9 +44,7 @@ eselect kernel list
 eselect kernel set 1
 genkernel all
 
-echo hostname="$hostname" > /etc/conf.d/hostname
-useradd -m -G wheel,audio,video $username
-
+### Installing GRUB
 emerge -q sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -61,7 +55,11 @@ emerge x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 cd /home/$username
 git clone https://github.com/bakkeby/dwm-flexipatch.git
 
+read -p "Enter username: " username
+useradd -m -G wheel,audio,video $username
 read -n 1 -s -r -p "Press any key to continue and type password for user: $username"
 passwd $username
+read -n 1 -s -r -p "Press any key to continue and type password for root user"
+passwd
 
 exit
