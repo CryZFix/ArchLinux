@@ -56,7 +56,7 @@ grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
-echo -- -5 |etc-update
+etc-update
 emerge x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 cd /home/$username
 git clone https://github.com/bakkeby/dwm-flexipatch.git
