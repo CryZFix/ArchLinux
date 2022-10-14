@@ -9,10 +9,6 @@ export PS1="(chroot) $PS1"
 
 emerge-webrsync
 
-eselect profile list
-read -p "Enter number your choice profile: " setprofile
-eselect profile set $setprofile
-
 emerge -qvuDN @world
 emerge cpuid2cpuflags
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
@@ -54,15 +50,15 @@ genkernel all
 
 echo hostname="$hostname" > /etc/conf.d/hostname
 useradd -m -G wheel,audio,video $username
-### IF NOT SET_PASS is set then the password will be "password"
-SET_PASS=${SET_PASS:-password}
-echo "$username:${SET_PASS}" | chpasswd
 
 emerge -q sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
-emerge x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
+emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 git clone https://github.com/bakkeby/dwm-flexipatch.git
+
+read -n 1 -s -r -p "Press any key to continue and type password for user: $username"
+passwd $username
 
 exit
