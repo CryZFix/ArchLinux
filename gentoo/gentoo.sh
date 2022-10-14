@@ -42,6 +42,7 @@ swapon /dev/sda2
 ### Download and run make fstab script
 curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/gentoo/genfstab
 chmod +x genfstab
+mkdir -p /mnt/gentoo/etc
 ./genfstab /mnt/gentoo > /mnt/gentoo/etc/fstab
 
 ### Download stage3 and extract
