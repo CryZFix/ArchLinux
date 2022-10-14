@@ -27,7 +27,7 @@ sed -i 's/CONSOLEFONT="default8x16"/CONSOLEFONT="cyr-sun16"/' /etc/conf.d/consol
 env-update && source /etc/profile
 export PS1="(chroot) $PS1"
 
-emerge -q sys-kernel/gentoo-kernel-bin sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
+emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd
 rc-update add dhcpcd default
 
 ### graphics driver
@@ -55,6 +55,8 @@ emerge -q sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
+emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
+etc-update
 emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 git clone https://github.com/bakkeby/dwm-flexipatch.git
 
