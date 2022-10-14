@@ -9,6 +9,7 @@ emerge-webrsync
 emerge -qvuDN @world
 emerge cpuid2cpuflags
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
+echo 'INPUT_DEVICES="synaptics libinput"' >> /etc/portage/make.conf
 
 echo "Europe/Samara" > /etc/timezone
 emerge --config sys-libs/timezone-data
