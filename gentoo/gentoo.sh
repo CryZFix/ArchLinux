@@ -130,18 +130,18 @@ genkernel all
 echo hostname="$sethostname" > /etc/conf.d/hostname
 
 useradd -m -G wheel,audio,video $username
-echo "$username:$password" | chpasswd
 
 emerge -q sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
-emerge x11-base/xorg-drivers x11-base/xorg-server git alacritty
+emerge x11-base/xorg-drivers x11-base/xorg-server git alacritty --autounmask-write
+mkdir -p /home/$username
+cd /home/$username
 git clone https://github.com/bakkeby/dwm-flexipatch.git
-cd dwm-flexipatch
-make install
 
-echo 'exec dwm &'
+read -n 1 -s -r -p "Press any key to continue and type password for user: $username"
+passwd $username
 
 EOF
 
