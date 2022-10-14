@@ -29,9 +29,9 @@ read -p "Enter the number of threads on your processor (not cores, just threads)
 ) | fdisk /dev/sda
 
 ### Formatting disks
-mkfs.ext2 /dev/sda1 -L boot
-mkswap /dev/sda2 -L swap
-mkfs.ext4 /dev/sda3 -L root
+y|mkfs.ext2 /dev/sda1 -L boot
+y|mkswap /dev/sda2 -L swap
+y|mkfs.ext4 /dev/sda3 -L root
 
 ### Mounting disks
 mount /dev/sda3 /mnt/gentoo
