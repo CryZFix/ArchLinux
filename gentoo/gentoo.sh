@@ -75,8 +75,4 @@ mount --make-slave /mnt/gentoo/run
 
 chroot /mnt/gentoo sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/linux/main/gentoo/gentoo2.sh)"
 
-cd
-umount -l /mnt/gentoo/dev{/shm,/pts,} 
-umount -R /mnt/gentoo
-
 echo 'Installation was complity. You can reboot PC..'
