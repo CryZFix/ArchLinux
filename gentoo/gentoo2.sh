@@ -53,8 +53,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 etc-update
 emerge x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
-cd /home/$username
-git clone https://github.com/bakkeby/dwm-flexipatch.git
 
 read -p "Enter username: " username
 useradd -m -G wheel,audio,video $username
@@ -62,5 +60,7 @@ read -n 1 -s -r -p "Press any key to continue and type password for user: $usern
 passwd $username
 read -n 1 -s -r -p "Press any key to continue and type password for root user"
 passwd
+cd /home/$username
+git clone https://github.com/bakkeby/dwm-flexipatch.git
 
 exit
