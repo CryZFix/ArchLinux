@@ -39,12 +39,6 @@ mkdir /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 swapon /dev/sda2
 
-### Download and run make fstab script
-curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/gentoo/genfstab
-chmod +x genfstab
-mkdir -p /mnt/gentoo/etc
-./genfstab /mnt/gentoo > /mnt/gentoo/etc/fstab
-
 ### Download stage3 and extract
 cd /mnt/gentoo
 DISTMIRROR=http://distfiles.gentoo.org
@@ -54,6 +48,12 @@ FILE=$(wget -q $DISTBASE -O - | grep -o -E 'stage3-amd64-openrc-20\w*\.tar\.(bz2
 echo download latest stage file $FILE
 wget $DISTBASE$FILE
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+
+### Download and run make fstab script
+curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/gentoo/genfstab
+chmod +x genfstab
+mkdir -p /mnt/gentoo/etc
+./genfstab /mnt/gentoo > /mnt/gentoo/etc/fstab
 
 ### Add FLAGS 
 sed -i 's/COMMON_FLAGS="-O2 -pipe"/COMMON_FLAGS="-march=native -O2 -pipe"/' /mnt/gentoo/etc/portage/make.conf
