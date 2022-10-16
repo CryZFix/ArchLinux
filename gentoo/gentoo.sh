@@ -73,6 +73,6 @@ mount --make-rslave /mnt/gentoo/dev
 mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 
-#chroot /mnt/gentoo sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/linux/main/gentoo/gentoo2.sh)"
+chroot /mnt/gentoo sh -c "$(curl -fsSL https://raw.githubusercontent.com/CryZFix/linux/main/gentoo/gentoo2.sh)"
 
 echo 'Installation was complity. You can reboot PC..'
