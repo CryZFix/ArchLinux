@@ -6,6 +6,8 @@ source /etc/profile
 export PS1="(chroot) $PS1"
 
 emerge-webrsync
+setprofile=$(eselect profile list|awk '$2 == "/desktop"'|awk -F "[" '{print $2}'|awk -F "]" '{print $1}')
+eselect profile set 
 emerge -qvuDN @world
 emerge cpuid2cpuflags
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
