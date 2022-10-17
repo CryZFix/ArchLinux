@@ -10,7 +10,7 @@ emerge-webrsync
 #setprofile=$(eselect profile list|grep 'desktop (stable)'|awk -F "[" '{print $2}'|awk -F "]" '{print $1}')
 #eselect profile set $setprofile
 emerge -qvuDN @world
-emerge cpuid2cpuflags
+emerge cpuid2cpuflags sys-kernel/linux-firmware
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
 echo 'INPUT_DEVICES="synaptics libinput"' >> /etc/portage/make.conf
 
