@@ -6,8 +6,9 @@ source /etc/profile
 export PS1="(chroot) $PS1"
 
 emerge-webrsync
-setprofile=$(eselect profile list|grep 'desktop (stable)'|awk -F "[" '{print $2}'|awk -F "]" '{print $1}')
-eselect profile set $setprofile
+### Eselect set desktop stable profile
+#setprofile=$(eselect profile list|grep 'desktop (stable)'|awk -F "[" '{print $2}'|awk -F "]" '{print $1}')
+#eselect profile set $setprofile
 emerge -qvuDN @world
 emerge cpuid2cpuflags
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
@@ -26,7 +27,8 @@ sed -i 's/CONSOLEFONT="default8x16"/CONSOLEFONT="cyr-sun16"/' /etc/conf.d/consol
 env-update && source /etc/profile
 export PS1="(chroot) $PS1"
 
-emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd app-admin/sudo sys-apps/pciutils
+#emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd app-admin/sudo sys-apps/pciutils
+emerge -q sys-kernel/gentoo-kernel-bin sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd app-admin/sudo sys-apps/pciutils
 rc-update add dhcpcd default
 
 ### graphics driver
