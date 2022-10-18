@@ -9,6 +9,7 @@ emerge-webrsync
 ### Eselect set desktop stable profile
 #setprofile=$(eselect profile list|grep 'desktop (stable)'|awk -F "[" '{print $2}'|awk -F "]" '{print $1}')
 #eselect profile set $setprofile
+echo 'USE="elogind"' >> /etc/portage/make.conf
 emerge -qvuDN @world
 emerge cpuid2cpuflags sys-kernel/linux-firmware
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
@@ -56,7 +57,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 etc-update
-emerge x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
+emerge USE="suid" x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 
 read -p "Enter username: " username
 useradd -m -G wheel,audio,video $username
