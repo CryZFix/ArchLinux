@@ -31,6 +31,7 @@ export PS1="(chroot) $PS1"
 #emerge -q sys-kernel/gentoo-sources sys-kernel/genkernel sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd app-admin/sudo sys-apps/pciutils
 emerge -q sys-kernel/gentoo-kernel-bin sys-fs/e2fsprogs sys-fs/btrfs-progs sys-fs/dosfstools dhcpcd app-admin/sudo sys-apps/pciutils
 rc-update add dhcpcd default
+rc-update add elogind boot
 
 ### graphics driver
 nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
@@ -58,6 +59,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 etc-update
 emerge USE="suid" x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
+
+### Optional packages for dwm-flexepatcher
+emerge x11-libs/libXft x11-libs/libXinerama
 
 read -p "Enter username: " username
 useradd -m -G wheel,audio,video $username
