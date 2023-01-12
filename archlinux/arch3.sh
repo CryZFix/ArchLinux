@@ -1,7 +1,7 @@
 #!/bin/bash
 username=junker
 
-APPS='google-chrome polybar pywal calc networkmanager-dmenu-git neovim-plug'
+APPS='google-chrome polybar calc networkmanager-dmenu-git neovim-plug'
 
 cd /home/$username
 mkdir -p files
