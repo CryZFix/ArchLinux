@@ -1,9 +1,15 @@
 #!/bin/bash
 
+read -p 'Enter your Username (Default junker): ' uservar && if [ -z $uservar ] ; then username=junker; else username=$uservar; fi
+read -p 'Enter your Hostname (Default reichstag): ' hostvar && if [ -z $hostvar ] ; then hostname=reichstag; else hostname=$hostvar; fi
+read -p 'Enter your TimeZone (Default Europe/Samara): ' timevar && if [ -z $timevar ] ; then timezone='Europe/Samara'; else timezone=$timevar; fi
+read -sp 'Enter your Password (Default 123456): ' passvar && if [ -z $passvar ] ; then password=123456; else password=$passvar; fi
+echo ""
 
-hostname=reichstag
-username=junker
-password=123456
+
+#hostname=reichstag
+#username=junker
+#password=123456
 
 
 ##############################################
@@ -61,7 +67,7 @@ swapon /dev/sda2
 # Necessary helper for sorting mirrors
 curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4' | sed 's/^#Server/Server/g' > /etc/pacman.d/mirrorlist
 pacman -Sy
-pacman -S --noconfirm pacman-contrib
+pacman -S --noconfirm pacman-contrib archlinux-keyring
 
 update_mirrorlist(){
   curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4&use_mirror_status=on' | sed 's/^#Server/Server/g' | rankmirrors - > /etc/pacman.d/mirrorlist
@@ -85,7 +91,7 @@ echo $hostname > /etc/hostname
 
 # Timezone
 rm -f /etc/localtime
-ln -svf /usr/share/zoneinfo/Europe/Samara /etc/localtime
+ln -svf /usr/share/zoneinfo/$timezone /etc/localtime
 
 # Create regular user
 useradd -m -g users -G wheel -s /bin/bash $username
@@ -171,6 +177,7 @@ EOF
 rm /home/$username/.bashrc
 sudo mv -f * /home/$username
 sudo -u $username sh /home/$username/arch3.sh
+rm /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
@@ -189,4 +196,5 @@ echo 'Install is complete, rebooting...'
 exit
 REALEND
 arch-chroot /mnt sh arch2.sh
-echo Finaly..
+rm /mnt/arch2.sh
+echo Finaly.
