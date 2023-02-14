@@ -175,7 +175,7 @@ sudo systemctl enable zramswap.service
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
-sudo tar -xvf config.tar -C /home/$username
+sudo tar -xf config.tar -C /home/$username
 sudo chown junker:user /home/$username/.*
 
 # Adding autologin without DE
