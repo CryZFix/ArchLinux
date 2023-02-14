@@ -139,7 +139,7 @@ systemctl enable sshd
 
 # Downloading config for i3, polybar, etc
  # tar -czf config.tar.gz .config
-chsh -s /bin/zsh junker
+chsh -s /bin/zsh $username
 mkdir downloads
 cd downloads
 
@@ -176,7 +176,7 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: 
 wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
 sudo rm -rf /home/$username/.config/*
 sudo tar -xf config.tar -C /home/$username
-sudo chown junker:user /home/$username/.*
+sudo chown $username:users /home/$username/.*
 
 # Adding autologin without DE
 sudo echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '-p -f -- \\u' --noclear --autologin" "$username" '- $TERM' > autologin.conf
