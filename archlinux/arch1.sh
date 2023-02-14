@@ -16,6 +16,8 @@ APPS='bspwm sxhkd grub rofi alacritty dmenu pulseaudio pavucontrol wget tar netw
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 ##############################################
 OPTS='bash-completion telegram-desktop tmux picom nitrogen ffmpegthumbnailer ueberzug zsh-theme-powerlevel10k pkgfile python-pip'
+##############################################
+AUR='google-chrome polybar calc networkmanager-dmenu-git'
 
 timedatectl set-ntp true
 
@@ -146,8 +148,6 @@ cd downloads
 
 cat << EOF > arch3.sh
 #!/bin/bash
-
-AUR='google-chrome polybar calc networkmanager-dmenu-git'
 
 cd /home/$username
 mkdir -p files
