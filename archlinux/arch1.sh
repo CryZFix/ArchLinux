@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+hostname=reichstag
+username=junker
+password=123456
+
+
 ##############################################
 ESSENTIAL='base base-devel cmake linux-zen linux-zen-headers linux-firmware neovim nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
 ##############################################
@@ -69,11 +75,8 @@ pacstrap /mnt $ESSENTIAL $DRIVERS $APPS $FONTS $OPTS
 genfstab -pU /mnt >> /mnt/etc/fstab
 
 
-cat << REALEND > arch2.sh
+cat << REALEND > /mnt/arch2.sh
 #!/bin/bash
-hostname=reichstag
-username=junker
-password=123456
 
 # Hostname
 echo $hostname > /etc/hostname
@@ -143,7 +146,6 @@ cd downloads
 
 cat << EOF > arch3.sh
 #!/bin/bash
-username=junker
 
 APPS='google-chrome polybar calc networkmanager-dmenu-git'
 
