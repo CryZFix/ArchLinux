@@ -186,3 +186,5 @@ rm -rf downloads
 echo 'Install is complete, rebooting...'
 exit
 REALEND
+arch-chroot /mnt sh arch2.sh
+echo Finaly..
