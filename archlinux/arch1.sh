@@ -147,7 +147,7 @@ cd downloads
 cat << EOF > arch3.sh
 #!/bin/bash
 
-APPS='google-chrome polybar calc networkmanager-dmenu-git'
+AUR='google-chrome polybar calc networkmanager-dmenu-git'
 
 cd /home/$username
 mkdir -p files
@@ -164,7 +164,7 @@ cd ..
 cd ..
 rm -rf files
 
-pikaur -Syyu $APPS --noconfirm
+pikaur -Syyu $AUR --noconfirm
 EOF
 
 
