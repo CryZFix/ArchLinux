@@ -70,9 +70,9 @@ if [[ $loader != 2 ]]; then
   if [[ "$disk_name" == *"nvme"*  ]]
     then
     echo 'Adding a prefix for NVME'
-    disk_name="/dev/$disk_name""p"
+    disk_name="$disk_name""p"
   else
-    disk_name="/dev/$disk_name"
+    disk_name="$disk_name"
   fi
 
   # Formating
@@ -118,9 +118,9 @@ elif [[ $loader == 2 ]]; then
   if [[ "$disk_name" == *"nvme"*  ]]
     then
     echo 'Adding a prefix for NVME'
-    disk_name="/dev/$disk_name""p"
+    disk_name="$disk_name""p"
   else
-    disk_name="/dev/$disk_name"
+    disk_name="$disk_name"
   fi
 
   #Formating
@@ -188,7 +188,7 @@ mkinitcpio -p linux-zen
     disk_name=$disk_name
   fi
 
-grub-install /dev/sda
+grub-install $disk_name
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Config sudo
