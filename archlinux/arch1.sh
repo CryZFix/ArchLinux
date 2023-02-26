@@ -1,5 +1,17 @@
 #!/bin/bash
 
+fdisk -l
+read -p 'Enter your disk name: /dev/' disk_name
+if [ -z $disk_name ]
+  then
+    echo 'Your choice is empty'
+    exit
+  else
+    echo 'Preparing the disk'
+    disk_name="/dev/$disk_name"
+fi
+
+read -p 'Enter your choice, 1 - BIOS or 2 - UEFI (Default as BIOS): ' loader
 read -p 'Enter your Username (Default junker): ' uservar && if [ -z $uservar ] ; then username=junker; else username=$uservar; fi
 read -p 'Enter your Hostname (Default reichstag): ' hostvar && if [ -z $hostvar ] ; then hostname=reichstag; else hostname=$hostvar; fi
 read -p 'Enter your TimeZone (Default Europe/Samara): ' timevar && if [ -z $timevar ] ; then timezone='Europe/Samara'; else timezone=$timevar; fi
@@ -27,42 +39,101 @@ AUR='google-chrome polybar calc networkmanager-dmenu-git'
 
 timedatectl set-ntp true
 
-echo 'Parts'
-(
-  echo o;
+if [[ $loader != 2 ]]; then
+  echo 'Parts'
+  (
+    echo o;
 
-  echo n;
-  echo;
-  echo;
-  echo;
-  echo +800M;
-  echo a;
+    echo n;
+    echo;
+    echo;
+    echo;
+    echo +800M;
+    echo a;
 
-  echo n;
-  echo;
-  echo;
-  echo;
-  echo +2048M;
+    echo n;
+    echo;
+    echo;
+    echo;
+    echo +2048M;
 
-  echo n;
-  echo;
-  echo;
-  echo;
-  echo;
+    echo n;
+    echo;
+    echo;
+    echo;
+    echo;
 
-  echo w;
-) | fdisk /dev/sda
+    echo w;
+  ) | fdisk $disk_name
 
-# Formating
-mkfs.ext2  /dev/sda1 -L boot
-mkfs.ext4  /dev/sda3 -L root
-mkswap /dev/sda2 -L swap
+  #NVME add prefix for partition
+  if [[ "$disk_name" == *"nvme"*  ]]
+    then
+    echo 'Adding a prefix for NVME'
+    disk_name="/dev/$disk_name""p"
+  else
+    disk_name="/dev/$disk_name"
+  fi
 
-# Mounting
-mount /dev/sda3 /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
-swapon /dev/sda2
+  # Formating
+  mkfs.ext2 $disk_name"1" -L boot
+  mkfs.ext4 $disk_name"3" -L root
+  mkswap $disk_name"2" -L swap
+
+  # Mounting
+  mount $disk_name"3" /mnt
+  mkdir /mnt/boot
+  mount $disk_name"1" /mnt/boot
+  swapon $disk_name"2"
+elif [[ $loader == 2 ]]; then
+  echo 'Parts'
+  (
+    echo g;
+
+    echo n;
+    echo;
+    echo;
+    echo +500M;
+    echo t;
+    echo 1;
+
+    echo n;
+    echo;
+    echo;
+    echo +4096M;
+    echo t;
+    echo 2;
+    echo 19;
+
+    echo n;
+    echo;
+    echo;
+    echo;
+    echo;
+
+    echo w;
+  ) fdisk $disk_name
+
+  #NVME add prefix for partition
+  if [[ "$disk_name" == *"nvme"*  ]]
+    then
+    echo 'Adding a prefix for NVME'
+    disk_name="/dev/$disk_name""p"
+  else
+    disk_name="/dev/$disk_name"
+  fi
+
+  #Formating
+  mkfs.vfat -F32 $disk_name"1"
+  mkfs.ext4 $disk_name"3" -L root
+  mkswap $disk_name"2" -L swap
+
+  #Mounting
+  mount $disk_name"3" /mnt
+  mkdir -p /mnt/boot/efi
+  mount $disk_name"1" /mnt/boot/efi
+  swapon $disk_name"2"
+fi
 
 # Necessary helper for sorting mirrors
 curl -sSL 'https://www.archlinux.org/mirrorlist/?country=RU&protocol=https&ip_version=4' | sed 's/^#Server/Server/g' > /etc/pacman.d/mirrorlist
@@ -104,7 +175,19 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 # Create RAM loader
 echo 'Создадим загрузочный RAM диск'
+if [[ loader == 2 ]]; then
+  pacman -S efibootmgr
+fi
 mkinitcpio -p linux-zen
+
+#NVME add prefix for partition
+  if [[ "$disk_name" == *"nvme"*  ]]
+    then
+    disk_name=$($disk_name | sed 's/^.$//')
+  else
+    disk_name=$disk_name
+  fi
+
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
