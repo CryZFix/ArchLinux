@@ -112,7 +112,7 @@ elif [[ $loader == 2 ]]; then
     echo;
 
     echo w;
-  ) fdisk $disk_name
+  ) | fdisk $disk_name
 
   #NVME add prefix for partition
   if [[ "$disk_name" == *"nvme"*  ]]
