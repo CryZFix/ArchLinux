@@ -203,26 +203,26 @@ sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 pacman -Syy
 
 # graphics driver
-nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
-amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
-intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
-if [[ -n "$nvidia" ]]; then
-  pacman -S --noconfirm nvidia
-fi
+# nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
+# amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
+# intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
+# if [[ -n "$nvidia" ]]; then
+#   pacman -S --noconfirm nvidia
+# fi
 
-if [[ -n "$amd" ]]; then
-  pacman -S --noconfirm xf86-video-amdgpu
-fi
+# if [[ -n "$amd" ]]; then
+#   pacman -S --noconfirm xf86-video-amdgpu
+# fi
 
-if [[ -n "$intel" ]]; then
-  pacman -S --noconfirm xf86-video-intel
-fi
+# if [[ -n "$intel" ]]; then
+#   pacman -S --noconfirm xf86-video-intel
+# fi
 
-if [[ -n "$nvidia" && -n "$intel" ]]; then
-  pacman -S --noconfirm bumblebee
-  gpasswd -a $username bumblebee
-  systemctl enable bumblebeed
-fi
+# if [[ -n "$nvidia" && -n "$intel" ]]; then
+#   pacman -S --noconfirm bumblebee
+#   gpasswd -a $username bumblebee
+#   systemctl enable bumblebeed
+# fi
 
 # Enabe NM and sshd service
 systemctl enable NetworkManager
