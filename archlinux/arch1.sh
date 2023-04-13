@@ -249,11 +249,20 @@ wget 'https://aur.archlinux.org/cgit/aur.git/snapshot/pikaur.tar.gz'
 tar xzfv pikaur*
 cd pikaur
 makepkg -fsri --noconfirm
+
+pikaur -Syu $AUR libconfig glib2 uthash libx11 lib32-libx11 libxcb libxext lib32-libxext xorgproto libxkbcommon-x11 pixman dbus pcre pcre2 libev meson ninja --noconfirm
+git clone https://github.com/pijulius/picom.git
+cd picom
+meson --buildtype=release . build
+ninja -C build
+mkdir -p /home/$username/.local/bin
+cp build/src/picom /home/$username/.local/bin
+
+cd ..
 cd ..
 cd ..
 rm -rf files
 
-pikaur -Syyu $AUR --noconfirm
 EOF
 
 
@@ -272,6 +281,14 @@ sudo chown $username:users /home/$username/.*
 sudo echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '-p -f -- \\u' --noclear --autologin" "$username" '- $TERM' > autologin.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
+
+pikaur -S 
+git clone https://github.com/pijulius/picom.git
+cd picom
+meson --buildtype=release . build
+ninja -C build
+mkdir -p /home/$username/.local/bin
+cp build/src/picom /home/$username/.local/bin
 
 cd ..
 rm -rf downloads
