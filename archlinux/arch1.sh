@@ -25,17 +25,17 @@ echo ""
 
 
 ##############################################
-ESSENTIAL='base base-devel cmake linux-zen linux-zen-headers linux-firmware neovim nano dhcpcd netctl openssh dialog wpa_supplicant zsh'
+ESSENTIAL='base base-devel cmake linux-zen linux-zen-headers linux-firmware neovim dhcpcd netctl openssh dialog wpa_supplicant zsh'
 ##############################################
-DRIVERS='xorg-server xorg-xinit ntfs-3g gvfs os-prober'
+DRIVERS='xorg-server xorg-xinit xorg-xrandr xdotool ntfs-3g gvfs os-prober'
 ##############################################
-APPS='bspwm sxhkd grub rofi alacritty dmenu pulseaudio pavucontrol wget tar networkmanager ppp git curl tree vim ranger'
+APPS='bspwm sxhkd grub rofi alacritty dmenu pulseaudio pavucontrol wget tar networkmanager ppp git curl tree ranger'
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 ##############################################
-OPTS='bash-completion telegram-desktop tmux picom nitrogen ffmpegthumbnailer ueberzug zsh-theme-powerlevel10k pkgfile python-pip'
+OPTS='bash-completion telegram-desktop tmux rsync feh ffmpegthumbnailer ueberzug zsh-theme-powerlevel10k pkgfile python-pip'
 ##############################################
-AUR='google-chrome polybar calc networkmanager-dmenu-git'
+AUR='google-chrome polybar networkmanager-dmenu-git'
 
 timedatectl set-ntp true
 
@@ -250,13 +250,10 @@ tar xzfv pikaur*
 cd pikaur
 makepkg -fsri --noconfirm
 
-pikaur -Syu $AUR libconfig glib2 uthash libx11 lib32-libx11 libxcb libxext lib32-libxext xorgproto libxkbcommon-x11 pixman dbus pcre pcre2 libev meson ninja --noconfirm
-git clone https://github.com/pijulius/picom.git
-cd picom
-meson --buildtype=release . build
-ninja -C build
-mkdir -p /home/$username/.local/bin
-cp build/src/picom /home/$username/.local/bin
+pikaur -Syu $AUR --noconfirm
+
+git clone https://github.com/CryZFix/dotfiles.git
+rsync -a --exclude='.git/' dotfiles/ /home/$username
 
 cd ..
 cd ..
