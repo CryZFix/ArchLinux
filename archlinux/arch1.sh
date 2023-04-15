@@ -195,7 +195,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # allow users of group wheel to use sudo
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL$/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL$/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-chmod 777 /home/$username/arch3.sh
 
 # Uncomment multilib repo
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
