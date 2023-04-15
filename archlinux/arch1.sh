@@ -268,23 +268,12 @@ sudo -u $username sh /home/$username/arch3.sh
 rm /home/$username/arch3.sh
 sudo systemctl enable zramswap.service
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL$/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-wget https://github.com/CryZFix/Linux/raw/main/archlinux/attach/config.tar
-sudo rm -rf /home/$username/.config/*
-sudo tar -xf config.tar -C /home/$username
 sudo chown $username:users /home/$username/.*
 
 # Adding autologin without DE
 sudo echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '-p -f -- \\u' --noclear --autologin" "$username" '- $TERM' > autologin.conf
 sudo mkdir /etc/systemd/system/getty@tty1.service.d/
 sudo mv -f autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
-
-pikaur -S 
-git clone https://github.com/pijulius/picom.git
-cd picom
-meson --buildtype=release . build
-ninja -C build
-mkdir -p /home/$username/.local/bin
-cp build/src/picom /home/$username/.local/bin
 
 cd ..
 rm -rf downloads
