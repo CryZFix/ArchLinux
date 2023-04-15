@@ -257,7 +257,6 @@ rsync -a --exclude='.git/' dotfiles/ /home/$username
 
 cd ..
 cd ..
-cd ..
 rm -rf files
 
 EOF
