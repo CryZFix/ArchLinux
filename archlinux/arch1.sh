@@ -27,15 +27,19 @@ echo ""
 ##############################################
 ESSENTIAL='base base-devel cmake linux-zen linux-zen-headers linux-firmware neovim dhcpcd netctl openssh dialog wpa_supplicant zsh'
 ##############################################
-DRIVERS='xorg-server xorg-xinit xorg-xrandr xdotool ntfs-3g gvfs os-prober'
+DRIVERS='ntfs-3g gvfs os-prober alsa-lib alsa-plugins alsa-tools alsa-utils alsa-firmware'
 ##############################################
-APPS='bspwm sxhkd grub rofi alacritty dmenu pulseaudio pavucontrol wget tar networkmanager ppp git curl tree ranger'
+APPS='grub kitty wget tar networkmanager ppp git curl tree ranger'
 ##############################################
 FONTS='ttf-liberation ttf-dejavu ttf-liberation ttf-dejavu'
 ##############################################
-OPTS='bash-completion telegram-desktop tmux rsync feh ffmpegthumbnailer ueberzug zsh-theme-powerlevel10k pkgfile python-pip'
+OPTS='tmux rsync zsh-theme-powerlevel10k pkgfile python-pip'
 ##############################################
-AUR='google-chrome polybar networkmanager-dmenu-git'
+AUR='google-chrome catch2-git'
+##############################################
+HYPRLAND='hyprland hyprpaper base-devel gdb ninja gcc cmake libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libx11 libxcomposite xorg-xinput libxrender pixman wayland-protocols cairo pango seatd libxkbcommon xcb-util-wm xorg-xwayland cmake wlroots mesa git meson polkit'
+##############################################
+WAYBAR='waybar fmt spdlog gtkmm3 libdbusmenu-gtk3 upower libmpdclient sndio gtk-layer-shell scdoc clang awesome-terminal-fonts jq'
 
 timedatectl set-ntp true
 
@@ -165,7 +169,7 @@ rm -f /etc/localtime
 ln -svf /usr/share/zoneinfo/$timezone /etc/localtime
 
 # Create regular user
-useradd -m -g users -G wheel -s /bin/bash $username
+useradd -m -g users -G wheel,audio -s /bin/bash $username
 echo "$username:$password" | chpasswd
 
 # Locale
