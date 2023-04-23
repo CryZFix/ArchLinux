@@ -262,6 +262,8 @@ cd ..
 cd ..
 rm -rf files
 
+pip install pydbus==0.6.0 psutil==5.6.6 PyGObject
+
 EOF
 
 
