@@ -37,7 +37,7 @@ OPTS='tmux rsync zsh-theme-powerlevel10k pkgfile python-pip'
 ##############################################
 AUR='google-chrome catch2-git'
 ##############################################
-HYPRLAND='hyprland hyprpaper base-devel gdb ninja gcc cmake libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libx11 libxcomposite xorg-xinput libxrender pixman wayland-protocols cairo pango seatd libxkbcommon xcb-util-wm xorg-xwayland cmake wlroots mesa git meson polkit wofi-wifi-menu-git'
+HYPRLAND='hyprland hyprpaper python-gobject base-devel gdb ninja gcc cmake libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libx11 libxcomposite xorg-xinput libxrender pixman wayland-protocols cairo pango seatd libxkbcommon xcb-util-wm xorg-xwayland cmake wlroots mesa git meson polkit wofi-wifi-menu-git'
 ##############################################
 WAYBAR='waybar fmt spdlog gtkmm3 libdbusmenu-gtk3 upower libmpdclient sndio gtk-layer-shell scdoc clang awesome-terminal-fonts jq'
 
@@ -253,7 +253,7 @@ tar xzfv pikaur*
 cd pikaur
 makepkg -fsri --noconfirm
 
-pikaur -Syu $AUR --noconfirm
+pikaur -Syu $AUR $HYPRLAND --noconfirm
 
 git clone https://github.com/CryZFix/dotfiles.git
 rsync -a --exclude='.git/' dotfiles/ /home/$username
@@ -262,7 +262,7 @@ cd ..
 cd ..
 rm -rf files
 
-pip install pydbus==0.6.0 psutil==5.6.6 PyGObject
+pip install pydbus==0.6.0 psutil==5.6.6
 
 EOF
 
