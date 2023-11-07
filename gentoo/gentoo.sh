@@ -42,8 +42,8 @@ swapon /dev/sda2
 ### Download stage3 and extract
 cd /mnt/gentoo
 DISTMIRROR=http://distfiles.gentoo.org
-DISTBASE=${DISTMIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/
-FILE=$(wget -q $DISTBASE -O - | grep -o -E 'stage3-amd64-openrc-20\w*\.tar\.(bz2|xz)' | uniq)
+DISTBASE=${DISTMIRROR}/releases/amd64/autobuilds/current-stage3-amd64-openrc/
+FILE=$(wget -q ${DISTMIRROR}/releases/amd64/autobuilds/current-stage3-amd64-openrc/latest-stage3-amd64-openrc.txt -O - | grep -o -E 'stage3-amd64-openrc-20\w*\.tar\.(bz2|xz)')
 [ -z "$FILE" ] && echo No stage3 found on $DISTBASE && exit 1
 echo download latest stage file $FILE
 wget $DISTBASE$FILE
