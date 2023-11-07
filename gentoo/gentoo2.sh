@@ -56,7 +56,7 @@ emerge -q sys-boot/grub:2
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
-emerge --autounmask-write x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
+emerge --autounmask-write y x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 etc-update
 emerge USE="suid" x11-base/xorg-drivers x11-base/xorg-server dev-vcs/git alacritty
 
