@@ -53,7 +53,8 @@ mkfs.ext4 "$HOME_PART"
 # Монтирование разделов
 echo "Монтирование разделов..."
 mount "$ROOT_PART" /mnt/gentoo
-mkdir -p {/mnt/gentoo/boot,/mnt/gentoo/home,/mnt/gentoo/boot/efi}
+mkdir -p /mnt/gentoo/{boot,home}
+mkdir -p /mnt/gentoo/boot/efi
 mount "$BOOT_PART" /mnt/gentoo/boot
 mount "$EFI_PART" /mnt/gentoo/boot/efi
 mount "$HOME_PART" /mnt/gentoo/home
