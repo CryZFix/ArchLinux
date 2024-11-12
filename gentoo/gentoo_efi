@@ -146,4 +146,3 @@ echo "Завершение установки..."
 umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
 swapoff "$SWAP_PART"
-reboot
