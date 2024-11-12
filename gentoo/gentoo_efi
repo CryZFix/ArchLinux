@@ -54,8 +54,8 @@ mkfs.ext4 "$HOME_PART"
 echo "Монтирование разделов..."
 mount "$ROOT_PART" /mnt/gentoo
 mkdir -p /mnt/gentoo/{boot,home}
-mkdir -p /mnt/gentoo/boot/efi
 mount "$BOOT_PART" /mnt/gentoo/boot
+mkdir -p /mnt/gentoo/boot/efi
 mount "$EFI_PART" /mnt/gentoo/boot/efi
 mount "$HOME_PART" /mnt/gentoo/home
 swapon "$SWAP_PART"
@@ -116,10 +116,10 @@ emerge linux-firmware net-wireless/wpa_supplicant dhcpcd
 if [[ "$KERNEL_TYPE" == "binary" ]]; then
     echo "Установка бинарного ядра..."
     echo "sys-kernel/installkernel dracut" > /etc/portage/package.use/installkernel
-    emerge sys-kernel/linux-firmware sys-kernel/installkernel sys-kernel/gentoo-kernel-bin
+    emerge sys-kernel/linux-firmware sys-kernel/installkernel sys-kernel/gentoo-kernel-bin || exit 1
 else
     echo "Установка исходного ядра и сборка..."
-    emerge sys-kernel/linux-firmware sys-kernel/installkernel gentoo-sources genkernel
+    emerge sys-kernel/linux-firmware sys-kernel/installkernel gentoo-sources genkernel || exit 1
     genkernel all
 fi
 
