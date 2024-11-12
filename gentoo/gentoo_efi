@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# Убедитесь, что сценарий выполняется с root-правами
+if [[ $EUID -ne 0 ]]; then
+   echo "Этот скрипт должен выполняться от имени root" 
+   exit 1
+fi
+
+# Переменные
+DISK=""
+KERNEL_TYPE="source"  # По умолчанию компилируемое ядро
+
+# Парсинг аргументов командной строки
+while getopts "d:k:" opt; do
+  case ${opt} in
+    d ) DISK=$OPTARG ;;
+    k ) KERNEL_TYPE=$OPTARG ;;
+    \? ) echo "Использование: $0 [-d диск] [-k ядро: binary или source]"
+         exit 1 ;;
+  esac
+done
+
+# Проверка, что указан диск
+if [[ -z "$DISK" ]]; then
+  echo "Ошибка: необходимо указать диск с помощью опции -d"
+  exit 1
+fi
+
+# Подготовка разделов
+EFI_PART="${DISK}1"
+BOOT_PART="${DISK}2"
+SWAP_PART="${DISK}3"
+ROOT_PART="${DISK}4"
+HOME_PART="${DISK}5"
+
+echo "Создание разделов на ${DISK}..."
+parted -s "$DISK" mklabel gpt
+parted -s "$DISK" mkpart primary fat32 1MiB 512MiB
+parted -s "$DISK" set 1 boot on
+parted -s "$DISK" mkpart primary ext4 512MiB 1024MiB
+parted -s "$DISK" mkpart primary linux-swap 1024MiB 5120MiB
+parted -s "$DISK" mkpart primary ext4 5120MiB 125120MiB
+parted -s "$DISK" mkpart primary ext4 125120MiB 100%
+
+# Форматирование разделов
+echo "Форматирование разделов..."
+mkfs.vfat -F 32 "$EFI_PART"
+mkfs.ext4 "$BOOT_PART"
+mkswap "$SWAP_PART"
+mkfs.ext4 "$ROOT_PART"
+mkfs.ext4 "$HOME_PART"
+
+# Монтирование разделов
+echo "Монтирование разделов..."
+mount "$ROOT_PART" /mnt/gentoo
+mkdir -p /mnt/gentoo/boot /mnt/gentoo/home /mnt/gentoo/efi
+mount "$BOOT_PART" /mnt/gentoo/boot
+mount "$EFI_PART" /mnt/gentoo/efi
+mount "$HOME_PART" /mnt/gentoo/home
+swapon "$SWAP_PART"
+
+# Загрузка и распаковка Stage3
+DISTMIRROR=http://distfiles.gentoo.org
+DISTBASE=${DISTMIRROR}/releases/amd64/autobuilds/current-stage3-amd64-openrc/
+FILE=$(wget -q ${DISTMIRROR}/releases/amd64/autobuilds/current-stage3-amd64-openrc/latest-stage3-amd64-openrc.txt -O - | grep -o -E 'stage3-amd64-openrc-20\w*\.tar\.(bz2|xz)')
+echo "Загрузка и распаковка Stage3..."
+cd /mnt/gentoo
+wget "$DISTBASE$FILE" -O stage3.tar.xz
+tar xpvf stage3.tar.xz --xattrs-include='*.*' --numeric-owner
+rm stage3.tar.xz
+
+# Подтягиваем fstab
+curl -OL https://raw.githubusercontent.com/CryZFix/Linux/main/gentoo/genfstab
+chmod +x genfstab
+mkdir -p /mnt/gentoo/etc
+./genfstab /mnt/gentoo > /mnt/gentoo/etc/fstab
+
+# Настройка make.conf
+echo "Настройка make.conf..."
+cat <<EOF > /mnt/gentoo/etc/portage/make.conf
+CFLAGS="-O2 -pipe"
+CXXFLAGS="\${CFLAGS}"
+MAKEOPTS="-j$(nproc)"
+USE="wifi"
+EOF
+
+mkdir /mnt/gentoo/etc/portage/repos.conf
+cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+
+# Монтирование системных файловых систем
+echo "Монтирование системных файловых систем..."
+mount --types proc /proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys 
+mount --make-rslave /mnt/gentoo/sys 
+mount --rbind /dev /mnt/gentoo/dev 
+mount --make-rslave /mnt/gentoo/dev
+mount --bind /run /mnt/gentoo/run
+mount --make-slave /mnt/gentoo/run
+
+# Настройка сети для chroot
+cp /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
+
+# Вход в chroot
+echo "Вход в chroot..."
+chroot /mnt/gentoo /bin/bash <<EOF_CHROOT
+# Настройка Portage
+emerge-webrsync
+emerge --sync
+
+# Установка базовых пакетов
+emerge linux-firmware net-wireless/wpa_supplicant dhcpcd
+
+# Установка ядра
+if [[ "$KERNEL_TYPE" == "binary" ]]; then
+    echo "Установка бинарного ядра..."
+    emerge gentoo-kernel-bin
+else
+    echo "Установка исходного ядра и сборка..."
+    emerge gentoo-sources genkernel
+    genkernel all
+fi
+
+# Настройка загрузчика
+emerge grub
+grub-install --target=x86_64-efi --efi-directory=/efi
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Настройка Wi-Fi
+rc-update add wpa_supplicant default || echo "wpa_supplicant не установлен"
+rc-update add dhcpcd default
+
+# Обновление fstab
+# echo "$ROOT_PART / ext4 defaults 0 1" >> /etc/fstab
+# echo "$BOOT_PART /boot ext4 defaults 0 2" >> /etc/fstab
+# echo "$HOME_PART /home ext4 defaults 0 2" >> /etc/fstab
+# echo "$SWAP_PART none swap sw 0 0" >> /etc/fstab
+
+# Установка root-пароля
+echo "Установка root-пароля..."
+echo -e "123\n123" | passwd
+
+EOF_CHROOT
+
+# Отмонтирование и завершение
+echo "Завершение установки..."
+umount -l /mnt/gentoo/dev{/shm,/pts,}
+umount -R /mnt/gentoo
+swapoff "$SWAP_PART"
+reboot
