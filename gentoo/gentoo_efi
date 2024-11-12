@@ -121,10 +121,8 @@ else
 fi
 
 # Настройка загрузчика
-emerge grub
+emerge grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot/efi ${DISK}
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable ${DISK}
-grub-install --target=i386-pc ${DISK}
 sed -i 's/^#GRUB_DISABLE_LINUX_UUID=[a-z]*/GRUB_DISABLE_LINUX_UUID=true/' /etc/default/grub
 sed -i 's/^#GRUB_CMDLINE_LINUX_DEFAULT=""/GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=ext4 panic=30 vga=791"/' /etc/default/grub
 sed -i 's/^#*GRUB_TIMEOUT=[0-9]+/GRUB_TIMEOUT=3/' /etc/default/grub
