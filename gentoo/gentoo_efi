@@ -2,7 +2,7 @@
 
 # Убедитесь, что сценарий выполняется с root-правами
 if [[ $EUID -ne 0 ]]; then
-   echo "Этот скрипт должен выполняться от имени root" 
+   echo "Этот скрипт должен выполняться от имени root"
    exit 1
 fi
 
@@ -78,6 +78,7 @@ mkdir -p /mnt/gentoo/etc
 
 # Настройка make.conf
 echo "Настройка make.conf..."
+sed -i 's/COMMON_FLAGS="-O2 -pipe"/COMMON_FLAGS="-march=native -O2 -pipe"/' /mnt/gentoo/etc/portage/make.conf
 cat <<EOF > /mnt/gentoo/etc/portage/make.conf
 CFLAGS="-O2 -pipe"
 CXXFLAGS="\${CFLAGS}"
@@ -91,9 +92,9 @@ cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos
 # Монтирование системных файловых систем
 echo "Монтирование системных файловых систем..."
 mount --types proc /proc /mnt/gentoo/proc
-mount --rbind /sys /mnt/gentoo/sys 
-mount --make-rslave /mnt/gentoo/sys 
-mount --rbind /dev /mnt/gentoo/dev 
+mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
 mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
@@ -104,13 +105,37 @@ cp /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
 # Вход в chroot
 echo "Вход в chroot..."
 chroot /mnt/gentoo /bin/bash <<EOF_CHROOT
+source /etc/profile
+
 # Настройка Portage
+echo 'USE="elogind"' >> /etc/portage/make.conf
 echo 'ACCEPT_LICENSE="*"' >> /etc/portage/make.conf
 emerge-webrsync
 emerge --sync
 
 # Установка базовых пакетов
-emerge linux-firmware net-wireless/wpa_supplicant dhcpcd
+emerge linux-firmware app-admin/sudo net-wireless/wpa_supplicant dhcpcd emerge cpuid2cpuflags || exit 1
+
+echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
+sed -i 's/CONSOLEFONT="default8x16"/CONSOLEFONT="cyr-sun16"/' /etc/conf.d/consolefont
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
+locale-gen
+env-update && source /etc/profile
+
+# Настройка видеокарты 
+nvidia=$(lspci | grep -e VGA -e 3D | grep 'NVIDIA' 2> /dev/null || echo '')
+amd=$(lspci | grep -e VGA -e 3D | grep 'AMD' 2> /dev/null || echo '')
+intel=$(lspci | grep -e VGA -e 3D | grep 'Intel' 2> /dev/null || echo '')
+if [[ -n "$nvidia" ]]; then
+  echo 'VIDEO_CARDS="nouveau"' >> /etc/portage/make.conf
+fi
+if [[ -n "$amd" ]]; then
+  echo 'VIDEO_CARDS="amdgpu radeon radeonsi"' >> /etc/portage/make.conf
+fi
+if [[ -n "$intel" ]]; then
+  echo 'VIDEO_CARDS="intel"' >> /etc/portage/make.conf
+fi
 
 # Установка ядра
 if [[ "$KERNEL_TYPE" == "binary" ]]; then
