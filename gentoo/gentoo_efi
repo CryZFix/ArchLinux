@@ -37,7 +37,7 @@ echo "Создание разделов на ${DISK}..."
 parted -s "$DISK" mklabel gpt
 parted -s "$DISK" mkpart primary fat32 1MiB 512MiB
 parted -s "$DISK" set 1 boot on
-parted -s "$DISK" mkpart primary ext4 512MiB 1024MiB
+parted -s "$DISK" mkpart primary ext2 512MiB 1024MiB
 parted -s "$DISK" mkpart primary linux-swap 1024MiB 5120MiB
 parted -s "$DISK" mkpart primary ext4 5120MiB 125120MiB
 parted -s "$DISK" mkpart primary ext4 125120MiB 100%
@@ -45,7 +45,7 @@ parted -s "$DISK" mkpart primary ext4 125120MiB 100%
 # Форматирование разделов
 echo "Форматирование разделов..."
 mkfs.vfat -F 32 "$EFI_PART"
-mkfs.ext4 "$BOOT_PART"
+mkfs.ext2 "$BOOT_PART"
 mkswap "$SWAP_PART"
 mkfs.ext4 "$ROOT_PART"
 mkfs.ext4 "$HOME_PART"
@@ -53,9 +53,9 @@ mkfs.ext4 "$HOME_PART"
 # Монтирование разделов
 echo "Монтирование разделов..."
 mount "$ROOT_PART" /mnt/gentoo
-mkdir -p /mnt/gentoo/boot /mnt/gentoo/home /mnt/gentoo/efi
+mkdir -p /mnt/gentoo/boot /mnt/gentoo/home /mnt/gentoo/boot/efi
 mount "$BOOT_PART" /mnt/gentoo/boot
-mount "$EFI_PART" /mnt/gentoo/efi
+mount "$EFI_PART" /mnt/gentoo/boot/efi
 mount "$HOME_PART" /mnt/gentoo/home
 swapon "$SWAP_PART"
 
@@ -122,8 +122,19 @@ fi
 
 # Настройка загрузчика
 emerge grub
-grub-install --target=x86_64-efi --efi-directory=/efi
+grub-install --target=x86_64-efi --efi-directory=/boot/efi ${DISK}
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable ${DISK}
+grub-install --target=i386-pc ${DISK}
+sed -i 's/^#GRUB_DISABLE_LINUX_UUID=[a-z]*/GRUB_DISABLE_LINUX_UUID=true/' /etc/default/grub
+sed -i 's/^#GRUB_CMDLINE_LINUX_DEFAULT=""/GRUB_CMDLINE_LINUX_DEFAULT="rootfstype=ext4 panic=30 vga=791"/' /etc/default/grub
+sed -i 's/^#*GRUB_TIMEOUT=[0-9]+/GRUB_TIMEOUT=3/' /etc/default/grub
+grep -q console= /proc/cmdline && sed -i 's/ vga=791/ console=tty0 console=ttyS0,115200/' /etc/default/grub
+grep -q console= /proc/cmdline && sed -i 's/^#GRUB_TERMINAL=.*/GRUB_TERMINAL="console serial"/' /etc/default/grub
+grep -q console= /proc/cmdline && echo 'GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0"' >> /etc/default/grub
+# enable in inittab
+grep -q console= /proc/cmdline && sed -i 's/^#s0:/s0:/' /etc/inittab
 grub-mkconfig -o /boot/grub/grub.cfg
+ls -lh /boot; find /boot/efi; efibootmgr
 
 # Настройка Wi-Fi
 rc-update add wpa_supplicant default || echo "wpa_supplicant не установлен"
