@@ -105,6 +105,7 @@ cp /etc/resolv.conf /mnt/gentoo/etc/resolv.conf
 echo "Вход в chroot..."
 chroot /mnt/gentoo /bin/bash <<EOF_CHROOT
 # Настройка Portage
+echo 'ACCEPT_LICENSE="*"' >> /etc/portage/make.conf
 emerge-webrsync
 emerge --sync
 
