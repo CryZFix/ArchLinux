@@ -114,7 +114,7 @@ emerge-webrsync
 emerge --sync
 
 # Установка базовых пакетов
-emerge linux-firmware app-admin/sudo net-wireless/wpa_supplicant dhcpcd emerge cpuid2cpuflags || exit 1
+emerge linux-firmware app-admin/sudo net-wireless/wpa_supplicant dhcpcd cpuid2cpuflags || exit 1
 
 echo "CPU_FLAGS_X86=$(cpuid2cpuflags | grep -oP ': \K.*')" | sed 's/=/="/;s/$/"/' >> /etc/portage/make.conf
 sed -i 's/CONSOLEFONT="default8x16"/CONSOLEFONT="cyr-sun16"/' /etc/conf.d/consolefont
