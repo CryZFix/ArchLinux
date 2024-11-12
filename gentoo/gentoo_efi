@@ -7,6 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Переменные
+MAKECONF="/etc/portage/make.conf"
 DISK=""
 KERNEL_TYPE="source"  # По умолчанию компилируемое ядро
 
@@ -108,7 +109,7 @@ chroot /mnt/gentoo /bin/bash <<EOF_CHROOT
 source /etc/profile
 
 # Настройка Portage
-echo 'USE="elogind"' >> /etc/portage/make.conf
+sed -i '' "s/^USE=\"\(.*\)\"/USE=\"\1 elogind\"/" "$MAKECONF"
 echo 'ACCEPT_LICENSE="*"' >> /etc/portage/make.conf
 emerge-webrsync
 emerge --sync
