@@ -113,10 +113,10 @@ emerge linux-firmware net-wireless/wpa_supplicant dhcpcd
 # Установка ядра
 if [[ "$KERNEL_TYPE" == "binary" ]]; then
     echo "Установка бинарного ядра..."
-    emerge gentoo-kernel-bin
+    emerge sys-kernel/linux-firmware sys-kernel/installkernel sys-kernel/gentoo-kernel-bin
 else
     echo "Установка исходного ядра и сборка..."
-    emerge gentoo-sources genkernel
+    emerge sys-kernel/linux-firmware sys-kernel/installkernel gentoo-sources genkernel
     genkernel all
 fi
 
